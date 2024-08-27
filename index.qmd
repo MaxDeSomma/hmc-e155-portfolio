@@ -5,9 +5,9 @@ about:
     template: jolla
     links:
         - icon: linkedin
-          text: linkedin
+          text: LinkedIn
           href: https://www.linkedin.com/in/max-de-somma-068889248/
-        - icon: Github
+        - icon: github
           text: Github
           href: https://github.com/MaxDeSomma
         
