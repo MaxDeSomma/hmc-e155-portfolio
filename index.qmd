@@ -13,8 +13,7 @@ about:
         
 ---
 
-Max De Somma is a senior Engineering major at Harvey Mudd College in Claremont, California. He grew up in 
-the Bay Area about 30 minutes north of San Francisco. His academic interestists include a mixture of electrical design as 
-well as mechanical properties. He works in the student machine shop on campus where he helps students and 
-faculty in learning how to safely operate heavy machinery. When he is not doing home work or in the shop Max 
+Max De Somma is a senior Engineering major at Harvey Mudd College in Claremont, California. At age six, he moved to
+the Bay Area, 30 minutes north of San Francisco. His academic interests include a mixture of electrical and mechanical design. He currently works in the student machine shop on campus where he helps students and 
+faculty learn how to safely operate heavy machinery. When he is not doing homework or in the shop Max 
 likes riding bikes, swimming, and playing board games.
