@@ -1,0 +1,20 @@
+---
+title: "E155 Portfolio"
+image: images/headshot.jpg
+about:
+    template: jolla
+    links:
+        - icon: linkedin
+          text: linkedin
+          href: https://www.linkedin.com/in/max-de-somma-068889248/
+        - icon: Github
+          text: Github
+          href: https://github.com/MaxDeSomma
+        
+---
+
+Max De Somma is a senior Engineering major at Harvey Mudd College in Claremont, California. He grew up in 
+the Bay Area about 30 minutes north of San Francisco. His academic interestists include a mixture of electrical design as 
+well as mechanical properties. He works in the student machine shop on campus where he helps students and 
+faculty in learning how to safely operate heavy machinery. When he is not doing home work or in the shop Max 
+likes riding bikes, swimming, and playing board games.
