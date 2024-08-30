@@ -95,6 +95,17 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-labs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Labs</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
+        <li>
+    <a class="dropdown-item" href="./lab1.qmd">
+ <span class="dropdown-text">Lab 1</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -118,7 +129,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
   </div>
 </header><main class="content" id="quarto-document-content">
-<p>Max De Somma is a senior Engineering major at Harvey Mudd College in Claremont, California. He grew up in the Bay Area about 30 minutes north of San Francisco. His academic interestists include a mixture of electrical design as well as mechanical properties. He works in the student machine shop on campus where he helps students and faculty in learning how to safely operate heavy machinery. When he is not doing home work or in the shop Max likes riding bikes, swimming, and playing board games.</p>
+<p>Max De Somma is a senior Engineering major at Harvey Mudd College in Claremont, California. At age six, he moved to the Bay Area, 30 minutes north of San Francisco. His academic interests include a mixture of electrical and mechanical design. He currently works in the student machine shop on campus where he helps students and faculty learn how to safely operate heavy machinery. When he is not doing homework or in the shop Max likes riding bikes, swimming, and playing board games.</p>
 
 
 </main> 
@@ -126,10 +137,10 @@ ul.task-list li input[type="checkbox"] {
    <div class="about-links">
   <a href="https://www.linkedin.com/in/max-de-somma-068889248/" class="about-link" rel="" target="">
     <i class="bi bi-linkedin"></i>
-     <span class="about-link-text">linkedin</span>
+     <span class="about-link-text">LinkedIn</span>
   </a>
   <a href="https://github.com/MaxDeSomma" class="about-link" rel="" target="">
-    <i class="bi bi-Github"></i>
+    <i class="bi bi-github"></i>
      <span class="about-link-text">Github</span>
   </a>
 </div>
@@ -220,7 +231,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/MaxDeSomma\.github\.io\/hmc-e155-portfolio\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

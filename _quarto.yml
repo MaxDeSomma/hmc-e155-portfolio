@@ -9,6 +9,11 @@ website:
         text: Home
       - href: blog.qmd
         text: Blog
+      - text: Labs
+        menu: 
+          - text: Lab 1
+            href: lab1.qmd
+
 
 format:
   html:
