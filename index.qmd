@@ -2,7 +2,7 @@
 title: "E155 Portfolio"
 image: images/headshot.jpg
 about:
-    template: jolla
+    template: solana
     links:
         - icon: linkedin
           text: LinkedIn
