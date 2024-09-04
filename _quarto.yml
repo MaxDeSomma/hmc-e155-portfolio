@@ -12,7 +12,7 @@ website:
       - text: Labs
         menu: 
           - text: Lab 1
-            href: lab1.qmd
+            href: labs\lab1\lab1.qmd
 
 
 format:

@@ -101,7 +101,7 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
         <li>
-    <a class="dropdown-item" href="./lab1.qmd">
+    <a class="dropdown-item" href="./labs/lab1/lab1.html">
  <span class="dropdown-text">Lab 1</span></a>
   </li>  
     </ul>
@@ -119,22 +119,16 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<div class="quarto-about-jolla">
-  <img src="images/headshot.jpg" class="about-image
-  round " style="height: 15em; width: 15em;">
- <header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-about-solana column-body">
+  <div class="about-entity">
+    <div class="entity-contents">
+      <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">E155 Portfolio</h1>
 </div>
 <div class="quarto-title-meta">
   </div>
-</header><main class="content" id="quarto-document-content">
-<p>Max De Somma is a senior Engineering major at Harvey Mudd College in Claremont, California. At age six, he moved to the Bay Area, 30 minutes north of San Francisco. His academic interests include a mixture of electrical and mechanical design. He currently works in the student machine shop on campus where he helps students and faculty learn how to safely operate heavy machinery. When he is not doing homework or in the shop Max likes riding bikes, swimming, and playing board games.</p>
-
-
-</main> 
-  <hr class="about-sep">
-   <div class="about-links">
+</header> <div class="about-links">
   <a href="https://www.linkedin.com/in/max-de-somma-068889248/" class="about-link" rel="" target="">
     <i class="bi bi-linkedin"></i>
      <span class="about-link-text">LinkedIn</span>
@@ -144,6 +138,15 @@ ul.task-list li input[type="checkbox"] {
      <span class="about-link-text">Github</span>
   </a>
 </div>
+      <div class="about-contents"><main class="content" id="quarto-document-content">
+<p>Max De Somma is a senior Engineering major at Harvey Mudd College in Claremont, California. At age six, he moved to the Bay Area, 30 minutes north of San Francisco. His academic interests include a mixture of electrical and mechanical design. He currently works in the student machine shop on campus where he helps students and faculty learn how to safely operate heavy machinery. When he is not doing homework or in the shop Max likes riding bikes, swimming, and playing board games.</p>
+
+
+</main></div>
+    </div>
+    <img src="images/headshot.jpg" class="about-image
+  rounded " style="width: 15em;">
+  </div>
 </div>
  <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -231,7 +234,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/MaxDeSomma\.github\.io\/hmc-e155-portfolio\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
