@@ -1,23 +1,29 @@
 ---
 title: 'Lab 1: FPGA and MCU Setup and Testing'
+format:
+  html:
+    code-links:
+      - text: "Lab Repository"
+        href: https://github.com/MaxDeSomma/e155-lab1
+        icon: github
 ---
 
 ## Introduction
-In this lab we soldered our e155 protoboard, tested our FPGA and MCU, and finally created our own FPGA desing to drive three LEDs as well as a seven segment display.
+In this lab we soldered our E155 protoboard, tested our FPGA and MCU, and  created our own FPGA design to drive onboard LEDs as well as a seven segment display.
 
 ## Development Board
-For the development board we were given a predesigned PCB and we asked to solder a variety of surface mount technology (SMT) and through hole technology (THT) components. The most important devices we added to the protoboard were the UPduino v3.1 FPGA and Nucleo-L432KC MCU which we attached through header pins making them detachable. We also added switches, voltage regulators, and jumpers to set power for the MCU and FPGA. The hardest part was soldering all the SMT leds, capacitors, and resistors as it was tricky to get them in the correct place with how miniscule they were.
+For the development board we were given we soldered a variety of surface mount technology (SMT) and through hole technology (THT) components. The brains behind the development board consisto of the UPduino v3.1 FPGA and Nucleo-L432KC MCU which were attached through header pins. Additionally switches, voltage regulators, and jumpers to set power for the MCU and FPGA were added to the board. The most difficult part was soldering all the SMT leds, capacitors, and resistors as it was tricky to get them in the correct place with how small they were.
 
 ![Completed Development Board](images/protoboard.png)
 
 ## Testing the FPGA and MCU
-I then tested that both the FPGA and MCU worked properly along with all the soldered components on the PCB. We were able to test by using the onboard PCB LEDs which connect internally to specific pins of the FPGA and MCU. For my board I found that three of my LEDS and one of the current limiting resistors needed to be reflowed. However after reflowing, I used Radiant to program the FPGA and Segger to program the MCU successfully testing my board.
+The FPGA and MCU were then tested to make sure they worked properly along with all the soldered components on the PCB. They were able to be test by using the onboard PCB LEDs which connect internally to specific pins of the FPGA and MCU. For my board I found that three of my LEDS and one of the current limiting resistors needed to be reflowed. However after reflowing, and using Radiant to program the FPGA and Segger to program the MCU it worked worked succesfully.
 
 ![On board LEDs used to test the FPGA and MCU](images/onBoardLeds.png)
 
 ## FPGA Design
 ### Lab Description
-After I had thoroughly tested that my FPGA, MCU, and proto board worked, I designed some FPGA modules to control some LEDs. The task was to light up three LED's and a seven segment display depedning on what dip switches were selected, described more in the table below. 
+After I had thoroughly tested that my FPGA, MCU, and development board, I designed FPGA modules to control different LEDs. The task was to light up the LED's and a seven segment display depending on what dip switches were selected, described more in the table below. 
 
 | Signal  Name | Signal Type | Description |
 |--------------|-------------|-------------|
@@ -25,7 +31,7 @@ After I had thoroughly tested that my FPGA, MCU, and proto board worked, I desig
 | `led[2:0]`| output| 3 LEDs (you may use the on-board LEDs) |
 | `seg[6:0]`| output| the segments of a common-anode 7-segment display |
 
-Two of the LEDs, `led[0]` and `led[1]`, are designed accordingly:
+Two of the LEDs, `led[0]` and `led[1]`, were designed accordingly:
 
 ::: {.center-table}
 | `s1` | `s0` | `led[0]` |
@@ -45,24 +51,24 @@ Two of the LEDs, `led[0]` and `led[1]`, are designed accordingly:
 | 1    | 1    | 1       |
 :::-
 
-And `led[2]` blinks at 2.4 Hz. 
+`led[2]` did not follow a truth table but instead was designed to blink at 2.4 Hz. 
 
-As for the seven segment display it needs to read in the dip switch signals and display the four digit binary number as a single hexadecimal digit on the seven segment display. For example if the dip switch input s is `0110` the seven segment display must show a `6` while if its `1101` it must display a `d`.
+As for the seven segment display it needs to read in the dip switch signals and display the four bit binary number as a single hexadecimal number on the seven segment display. For example if the dip switch input `s[3:0]` was `0110` the seven segment display must show a `6` while if it was `1101` it would display a `d`.
 
 ### Design
-Below is my rough block diagram to control both the LEDs and seven segment display:
+Below is the block diagram used to design the combinational logic that that drove both the LEDs and seven segment display:
 
 ![](images/lab1BlockDiagram.png)
 
 #### LED Design
 
-To design `led[0]` and `led[1]` we can clearly see that `led[0]` is simply an exclusive or (XOR gate) with input `s0` and `s1`. While for `led[1]` you can use an and gate with `s2` and `s3`. For the `led[2]` we had to make sure it blinked at 2.4 Hz. This means that every cycle will last around 0.4167 seconds. I decided I wanted a duty cycle of 50% meaning it needs to switch on or off every 0.2083 seconds. To design that I used the HSOSC library to utilize a clock that oscillates at 48 Mhz meaning it ticks every 2.083*10^-8 seconds. I then found that I would need 10^8 ticks to complete a half cycle for my LED. This allowed me to use a flip flop that counts every tick and switched the led on or off every 10,000,000 counts.
+To design `led[0]` and `led[1]` we can clearly see that `led[0]` is simply an exclusive or (XOR gate) of input `s0` and `s1`. While `led[1]` is an and gate of `s2` and `s3`. For `led[2]` it was necessary to make sure it blinked at 2.4 Hz. This means that every cycle of `led[2]` will last around 0.4167 seconds. Using a duty cycle of 50%, the LED needs to switch on or off every 0.2083 seconds. The HSOSC library was utilized to create a clock that oscillated at 48 Mhz meaning it ticks every 2.083*10^-8 seconds. This meant that it would take 10^8 ticks to complete a half cycle for `led[3]`. To design this a flip flop was used that counts every tick and switched the led on or off every 10,000,000 counts.
 
 #### Seven Segment Design
-To design the seven segment display I used a submodule which had an input of `s[3:0]` and an output of `seg[6:0]`. This module then had a case statement with 16 cases, one for each off the possible dip switch combinations (4'b000, 4'b0001, ... , 4'b1111). Once the verilog checked the case it would then turn off the specific pins that correlated to the specific segments to create each hexadecimal number. One interesting point about the seven segment display is that it was common annode, meaning it had one common pin at 3.3V and then you drive the other pin to low to light up the particular segment.
+To design the seven segment display the SystemVerilog module used a submodule which had an input of `s[3:0]` and an output of `seg[6:0]`. This submodule comntained a case statement with 16 cases, one for each off the possible dip switch combinations (4'b000, 4'b0001, ... , 4'b1111). Once the SystemVerilog checked the case it would then turn off the specific pins that correlated to the specific segments to create each hexadecimal number. One interesting point about the seven segment display is that it was common annode, meaning it had one common pin at 3.3V, meaning the FPGA must drive the desired pin to low to light up the particular segment.
 
 ### Testing
-To test my verilog was working according to my design I created and ran a test bench on my system verilog code. The testbench ran all 16 cominations of the dip switches and tested the expected led[3:0] and seg[6:0] vs what the actual outcome was in simulation. 
+A test bench was used to test the SystemVerilog code was working according to the proposed design. The testbench ran all 16 cominations of the dip switches and tested the expected led[3:0] and expected seg[6:0] outputs vs what the actual output of the modules would be in simulation. 
 
 ```markdown
 // sevenSeg_testvectors.tv
@@ -89,22 +95,20 @@ To test my verilog was working according to my design I created and ran a test b
 1111_010_0001110
 ```
 
-The test vector file above was the one used in the test bench that had the correct output for every case. Every test passed proving the system verilog code worked correctly. 
+The test vector file above was the one used in the test bench that had the correct output for every case. Every test passed proving the SystemVerilog code worked correctly. 
 
 ![](images/testBench.png)
 
-However I was not able to test `led[2]` as you might have noted in the test vector file. This was due to the fact that the HSOSC libary was not include in model sim. However I was able to validate it using an oscilloscope proving it oscillates between 0 V and 3.3V at a freq of 2.42 Hz which is clsoe to the desired 2.40 Hz. 
+However the test bench fell short as `led[2]` was not able to be tested which is clear in the photo above. This was due to the fact that the HSOSC libary was not include in model sim. However it was possible to validate it using an oscilloscope proving it oscillated between 0 V and 3.3V at a freq of 2.42 Hz which is clsoe to the desired 2.40 Hz. 
 ![](images/2.4HzLED.png)
 
 ### Wiring and Outcome
-After writing and testing my system verilog. It was time to connect the LED's and Seven Segment to my FPGA using the following wiring schematic.
+After writing and testing the SystemVerilog, it was time to connect the LED's and Seven Segment to my FPGA using the following wiring schematic.
 
 ![](images/pinLayout.png)
 
-However to prevent the seven segment drawing too much current I added current limiting resistors targeting 15 mA. Looking at the seven segment data sheet I found that the red led segments had a forward voltage of 1.8 V.
+However to prevent the seven segment drawing too much current, current limiting resistors were added to all seven `seg[7:0]` pins targeting 15 mA. On the seven segment data sheet, it stated that the red led segments had a forward voltage of 1.8 V. This meant that voltage across the resistor would be 1.5 V, and thus could use V = IR with a target current of 0.15 mA to calculate R.
 
 ![](images/currentLimitingResistor.png)
 
- As you can see above this was used to calculate the resistance needed to set the current at 15 mA resulting in the use of seven 100 Ohm resistors for each segment. 
-
- After finally wiring all the inputs and output to the FPGA and downloading the systemVerilog to the board we were able to succesfully 
+ After finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionallyh as shown above the `led[2]` blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours. 

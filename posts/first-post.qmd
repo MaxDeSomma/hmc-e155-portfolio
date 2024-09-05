@@ -1,10 +1,12 @@
 ---
-title: "Hello Quarto"
-description: "Welcome to my Quarto portfolio"
+title: "Jumping into Micro Ps"
+description: "The first week"
 author: "Max De Somma"
 date: "8/26/24"
 categories:
   - reflection
-  - labreport
 draft: false
 ---
+ This week in class we focused mostly on reviewing from E85, which I definitely needed. It was clear to me that I had forgotten quite a bit and was nervous that it wouldn't come back. Luckily I have started to remember the concepts we talked about in E85 over a year ago but some topics still trip me up such as using non blocking `<=` vs blocking `=` assign statements. I think repition and completing the labs will definitetly help with this, and I hope to see how much I can grow on my E85 knowledge throughout this semester.
+
+ One other thing I have been thinking about during this lab is the differenc between using the FPGA and MCU. In E85 we used the FPGA the first half of the labs and the RISC-V based MCU the second half. I'm wondering what are the strength of the FPGA vs MCU and how to know when to use one instead of the other?
