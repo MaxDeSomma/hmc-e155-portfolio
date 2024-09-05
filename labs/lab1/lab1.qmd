@@ -111,4 +111,8 @@ However to prevent the seven segment drawing too much current, current limiting 
 
 ![](images/currentLimitingResistor.png)
 
- After finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionallyh as shown above the `led[2]` blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours. 
+ After finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionally as shown above the `led[2]` blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours. 
+
+ ![The correct output of led[0] and the Seven Segment displaying 6 for input 4'b0110](images/display6.jpg)
+ 
+ ![The correct output of led[1] and the Seven Segment displaying C for input 4'b110](images/displayC.jpg)
