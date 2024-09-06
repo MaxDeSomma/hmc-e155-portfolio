@@ -95,11 +95,11 @@ A test bench was used to test the SystemVerilog code was working according to th
 1111_010_0001110
 ```
 
-The test vector file above was the one used in the test bench that had the correct output for every case. Every test passed proving the SystemVerilog code worked correctly. 
+The test vector file above was the one used in the testbench that had the correct output for every case. Every test passed proving the SystemVerilog code worked correctly. 
 
 ![](images/testBench.png)
 
-However the test bench fell short as `led[2]` was not able to be tested which is clear in the photo above. This was due to the fact that the HSOSC libary was not include in model sim. However it was possible to validate it using an oscilloscope proving it oscillated between 0 V and 3.3V at a freq of 2.42 Hz which is clsoe to the desired 2.40 Hz. 
+However the testbench fell short as `led[2]` was not able to be tested which is clear in the photo above. This was due to the fact that the HSOSC libary was not include in model sim. However it was possible to validate it using an oscilloscope proving it oscillated between 0 V and 3.3V at a freq of 2.42 Hz which is close to the desired 2.40 Hz. 
 ![](images/2.4HzLED.png)
 
 ### Wiring and Outcome
