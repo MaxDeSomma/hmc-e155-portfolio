@@ -2,7 +2,7 @@
 title: "Jumping into Micro Ps"
 description: "The first week"
 author: "Max De Somma"
-date: "8/26/24"
+date: "9/4/24"
 categories:
   - reflection
 draft: false

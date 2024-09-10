@@ -361,7 +361,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="images/pinLayout.png" class="img-fluid"></p>
 <p>However to prevent the seven segment drawing too much current, current limiting resistors were added to all seven <code>seg[7:0]</code> pins targeting 15 mA. On the seven segment data sheet, it stated that the red led segments had a forward voltage of 1.8 V. This meant that voltage across the resistor would be 1.5 V, and thus could use V = IR with a target current of 0.15 mA to calculate R.</p>
 <p><img src="images/currentLimitingResistor.png" class="img-fluid"></p>
-<p>After finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionallyh as shown above the <code>led[2]</code> blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours.</p>
+<p>After finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionally as shown above the <code>led[2]</code> blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/display6.jpg" class="img-fluid figure-img"></p>
+<figcaption>The correct output of led[0] and the Seven Segment displaying 6 for input 4’b0110</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/displayC.jpg" class="img-fluid figure-img"></p>
+<figcaption>The correct output of led[1] and the Seven Segment displaying C for input 4’b110</figcaption>
+</figure>
+</div>
 
 
 </section>
@@ -463,7 +475,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/MaxDeSomma\.github\.io\/hmc-e155-portfolio\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
