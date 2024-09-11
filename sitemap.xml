@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/first-post.html</loc>
-    <lastmod>2024-09-05T17:34:25.155Z</lastmod>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/second-post.html</loc>
+    <lastmod>2024-09-10T22:41:18.752Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab2/lab2.html</loc>
+    <lastmod>2024-09-11T22:14:05.739Z</lastmod>
   </url>
   <url>
     <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/index.html</loc>
@@ -14,6 +18,10 @@
   </url>
   <url>
     <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab1/lab1.html</loc>
-    <lastmod>2024-09-05T17:31:18.341Z</lastmod>
+    <lastmod>2024-09-10T22:40:32.565Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/first-post.html</loc>
+    <lastmod>2024-09-05T17:34:25.155Z</lastmod>
   </url>
 </urlset>
