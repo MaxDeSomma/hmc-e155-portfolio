@@ -49,7 +49,7 @@ Two of the LEDs, `led[0]` and `led[1]`, were designed accordingly:
 | 0    | 1    | 0      |
 | 1    | 0    | 0      |
 | 1    | 1    | 1       |
-:::-
+:::
 
 `led[2]` did not follow a truth table but instead was designed to blink at 2.4 Hz. 
 
@@ -62,7 +62,7 @@ Below is the block diagram used to design the combinational logic that that drov
 
 #### LED Design
 
-To design `led[0]` and `led[1]` we can clearly see that `led[0]` is simply an exclusive or (XOR gate) of input `s0` and `s1`. While `led[1]` is an and gate of `s2` and `s3`. For `led[2]` it was necessary to make sure it blinked at 2.4 Hz. This means that every cycle of `led[2]` will last around 0.4167 seconds. Using a duty cycle of 50%, the LED needs to switch on or off every 0.2083 seconds. The HSOSC library was utilized to create a clock that oscillated at 48 Mhz meaning it ticks every 2.083*10^-8 seconds. This meant that it would take 10^8 ticks to complete a half cycle for `led[3]`. To design this a flip flop was used that counts every tick and switched the led on or off every 10,000,000 counts.
+To design `led[0]` and `led[1]` we can clearly see that `led[0]` is simply an exclusive or (XOR gate) of input `s0` and `s1`. While `led[1]` is an and gate of `s2` and `s3`. For `led[2]` it was necessary to make sure it blinked at 2.4 Hz. This means that every cycle of `led[2]` will last around 0.4167 seconds. Using a duty cycle of 50%, the LED needs to switch on or off every 0.2083 seconds. The HSOSC library was utilized to create a clock that oscillated at 48 Mhz meaning it ticks every $2.083*10^-8$ seconds. This meant that it would take $10^8$ ticks to complete a half cycle for `led[3]`. To design this a flip flop was used that counts every tick and switched the led on or off every 10,000,000 counts.
 
 #### Seven Segment Design
 To design the seven segment display the SystemVerilog module used a submodule which had an input of `s[3:0]` and an output of `seg[6:0]`. This submodule comntained a case statement with 16 cases, one for each off the possible dip switch combinations (4'b000, 4'b0001, ... , 4'b1111). Once the SystemVerilog checked the case it would then turn off the specific pins that correlated to the specific segments to create each hexadecimal number. One interesting point about the seven segment display is that it was common annode, meaning it had one common pin at 3.3V, meaning the FPGA must drive the desired pin to low to light up the particular segment.

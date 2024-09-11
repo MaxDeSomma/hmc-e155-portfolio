@@ -10,5 +10,11 @@
   },
   "posts/first-post.qmd": {
     "first-post.html": "2d3b33e3"
+  },
+  "labs/lab2/lab2.qmd": {
+    "lab2.html": "d6359e32"
+  },
+  "posts/second-post.qmd": {
+    "second-post.html": "d20844f8"
   }
 }

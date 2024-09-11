@@ -1,0 +1,12 @@
+---
+title: "Jumping into Micro Ps"
+description: "The first week"
+author: "Max De Somma"
+date: "9/4/24"
+categories:
+  - reflection
+draft: false
+---
+Looking at the diagram below, you can see how time multiplexing generally works. The source transmits in multiple packets or frames of input data using a mux and then based on an input signal to the demux it sorts them in the right outputs. In this lab, we used this general idea slightly differently. 
+
+![src: scaler.com](images/timeMultiplexer.png)
