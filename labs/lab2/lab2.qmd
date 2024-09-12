@@ -64,7 +64,17 @@ The results from the wave function can be seen below. We can see that `led1` and
 
 ![](images/testBench.png)
 
-## Meets Requirements
+## Wiring up the Board
+After writing the system verilog modules and thoroughly testing them in a testbench it was time to wire of the FPGA. The FPGA was wired according to the pin layout below. The transistors used were PNP transistors (PN 2907). These were used to drive the common annodes of the displays to 3.3V and were switched on when `P47` and `P2` were driven low. 
+![](images/pins.png)
+To power the leds on the seven segment display without burning them out we had to use resistors to limit the current. The work for calculating the transistor base resistor, the seven segment current limiting resistor, and the yellow led resistor are shown below. The data sheet states that the recommended current for the FPGA I/O should be 8 mA. The transistor has a diode that has a forward foltage of 0.7 V, from there we can calculate the resistance we need to set the current to 8 mA. The resistance ended up being 325 Ohms, which was close enough to the 330 Ohm resistors found in the lab. The seven segment display has a forward voltage of 1.8 V and the target amperage was 8 mA again resuling in a resistance of 163 Ohms which is close to the 200 Ohm resistor in the cabinet. lastly for the yellow LEDs, I wanted them to be bright so I targeted a higher current of 15 mA, which correlates to a 100 Ohm resistance. Lastly for the addition quad dip switch used in this lab, the internal FPGA pull up resistors of 100 kOhm were used.
+![](images/resistanceCalcs.png)
+
+## Outcome
+Below you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the tow hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module utilizing transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.  
+
 ![](images/ledMov.mov)
-hours
+
+
+Hours in lab this week: 16 hours
 
