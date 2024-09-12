@@ -42,11 +42,18 @@
     "text": "Testing Approach\nTo test the modules discussed above a testbench was utilized to run a device under test. This test bench was quite simple compared to the last lab and did not utilize test vectors but instead was used to monitor when led1 and led2 toggled on or off and if the correct seg[6:0] was outputted depedning on which segment be powered. The DUT ended up being the segmentSwitcher module. Initially I planned to test each module seperately however the sevenSegment module was tested last week and ledSum just summed two inputs, so I decided to test all of segmentSwitcher. The systemVerilog used is provided below.\nmodule segmentSwitcher_tb();\n // Set up test signals\n logic clk;\n logic [3:0] s1,s2;\n logic led1, led2;\n logic [4:0] sum;\n logic [6:0] seg;\n\n // Instantiate the device under test\n segmentSwitcher dut(.s1(s1),.s2(s2), .clk(clk), .led1(led1),.led2(led2), .seg(seg), .sum(sum));\n\n // Generate clock signal with a period of 10 timesteps.\n always\n   begin\n     clk = 1; #5;\n     clk = 0; #5;\n   end\n\ninitial\n begin\n    // test different inputs\n    s1 = 4'b0000;\n    s2 = 4'b1111;\n    #20;\n    s1 = 4'b1000;\n    s2 = 4'b0001;\n    #20;\n    s1 = 4'b1010;\n    s2 = 4'b1001;\n    #20;\n end\nendmodule\nThe results from the wave function can be seen below. We can see that led1 and led2 oscillate oppositely as intended. In addition seg correctly outputs s1 if led1 is high and s2 if led2 is high. Laslty the summing module successfully sums s1 and s2 together and outputs it to sum."
   },
   {
-    "objectID": "labs/lab2/lab2.html#meets-requirements",
-    "href": "labs/lab2/lab2.html#meets-requirements",
+    "objectID": "labs/lab2/lab2.html#wiring-up-the-board",
+    "href": "labs/lab2/lab2.html#wiring-up-the-board",
     "title": "Lab 2: FPGA and MCU Setup and Testing",
-    "section": "Meets Requirements",
-    "text": "Meets Requirements\nVideo hours"
+    "section": "Wiring up the Board",
+    "text": "Wiring up the Board\nAfter writing the system verilog modules and thoroughly testing them in a testbench it was time to wire of the FPGA. The FPGA was wired according to the pin layout below. The transistors used were PNP transistors (PN 2907). These were used to drive the common annodes of the displays to 3.3V and were switched on when P47 and P2 were driven low.  To power the leds on the seven segment display without burning them out we had to use resistors to limit the current. The work for calculating the transistor base resistor, the seven segment current limiting resistor, and the yellow led resistor are shown below. The data sheet states that the recommended current for the FPGA I/O should be 8 mA. The transistor has a diode that has a forward foltage of 0.7 V, from there we can calculate the resistance we need to set the current to 8 mA. The resistance ended up being 325 Ohms, which was close enough to the 330 Ohm resistors found in the lab. The seven segment display has a forward voltage of 1.8 V and the target amperage was 8 mA again resuling in a resistance of 163 Ohms which is close to the 200 Ohm resistor in the cabinet. lastly for the yellow LEDs, I wanted them to be bright so I targeted a higher current of 15 mA, which correlates to a 100 Ohm resistance. Lastly for the addition quad dip switch used in this lab, the internal FPGA pull up resistors of 100 kOhm were used."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#outcome",
+    "href": "labs/lab2/lab2.html#outcome",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "Outcome",
+    "text": "Outcome\nBelow you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the tow hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module utilizing transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.\nVideo\nHours in lab this week: 16 hours"
   },
   {
     "objectID": "index.html",

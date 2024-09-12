@@ -165,9 +165,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#lab-overview" id="toc-lab-overview" class="nav-link" data-scroll-target="#lab-overview">Lab Overview</a></li>
   <li><a href="#design-approach" id="toc-design-approach" class="nav-link" data-scroll-target="#design-approach">Design Approach</a></li>
   <li><a href="#testing-approach" id="toc-testing-approach" class="nav-link" data-scroll-target="#testing-approach">Testing Approach</a></li>
-  <li><a href="#meets-requirements" id="toc-meets-requirements" class="nav-link" data-scroll-target="#meets-requirements">Meets Requirements</a></li>
+  <li><a href="#wiring-up-the-board" id="toc-wiring-up-the-board" class="nav-link" data-scroll-target="#wiring-up-the-board">Wiring up the Board</a></li>
+  <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
   </ul>
-<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab2"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab1"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -249,9 +250,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The results from the wave function can be seen below. We can see that <code>led1</code> and <code>led2</code> oscillate oppositely as intended. In addition <code>seg</code> correctly outputs <code>s1</code> if <code>led1</code> is high and <code>s2</code> if <code>led2</code> is high. Laslty the summing module successfully sums <code>s1</code> and <code>s2</code> together and outputs it to <code>sum</code>.</p>
 <p><img src="images/testBench.png" class="img-fluid"></p>
 </section>
-<section id="meets-requirements" class="level2">
-<h2 class="anchored" data-anchor-id="meets-requirements">Meets Requirements</h2>
-<p><video src="images/ledMov.mov" class="img-fluid" controls=""><a href="images/ledMov.mov">Video</a></video> hours</p>
+<section id="wiring-up-the-board" class="level2">
+<h2 class="anchored" data-anchor-id="wiring-up-the-board">Wiring up the Board</h2>
+<p>After writing the system verilog modules and thoroughly testing them in a testbench it was time to wire of the FPGA. The FPGA was wired according to the pin layout below. The transistors used were PNP transistors (PN 2907). These were used to drive the common annodes of the displays to 3.3V and were switched on when <code>P47</code> and <code>P2</code> were driven low. <img src="images/pins.png" class="img-fluid"> To power the leds on the seven segment display without burning them out we had to use resistors to limit the current. The work for calculating the transistor base resistor, the seven segment current limiting resistor, and the yellow led resistor are shown below. The data sheet states that the recommended current for the FPGA I/O should be 8 mA. The transistor has a diode that has a forward foltage of 0.7 V, from there we can calculate the resistance we need to set the current to 8 mA. The resistance ended up being 325 Ohms, which was close enough to the 330 Ohm resistors found in the lab. The seven segment display has a forward voltage of 1.8 V and the target amperage was 8 mA again resuling in a resistance of 163 Ohms which is close to the 200 Ohm resistor in the cabinet. lastly for the yellow LEDs, I wanted them to be bright so I targeted a higher current of 15 mA, which correlates to a 100 Ohm resistance. Lastly for the addition quad dip switch used in this lab, the internal FPGA pull up resistors of 100 kOhm were used. <img src="images/resistanceCalcs.png" class="img-fluid"></p>
+</section>
+<section id="outcome" class="level2">
+<h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
+<p>Below you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the tow hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module utilizing transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.</p>
+<p><video src="images/ledMov.mov" class="img-fluid" controls=""><a href="images/ledMov.mov">Video</a></video></p>
+<p>Hours in lab this week: 16 hours</p>
 
 
 </section>
