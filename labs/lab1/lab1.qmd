@@ -58,7 +58,7 @@ As for the seven segment display it needs to read in the dip switch signals and 
 ### Design
 Below is the block diagram used to design the combinational logic that that drove both the LEDs and seven segment display:
 
-![](images/lab1BlockDiagram.png)
+![](images/lab1BlockDiagrampng.png)
 
 #### LED Design
 

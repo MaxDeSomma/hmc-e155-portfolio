@@ -353,7 +353,7 @@ window.Quarto = {
 <section id="design" class="level3">
 <h3 class="anchored" data-anchor-id="design">Design</h3>
 <p>Below is the block diagram used to design the combinational logic that that drove both the LEDs and seven segment display:</p>
-<p><img src="images/lab1BlockDiagram.png" class="img-fluid"></p>
+<p><img src="images/lab1BlockDiagrampng.png" class="img-fluid"></p>
 <section id="led-design" class="level4">
 <h4 class="anchored" data-anchor-id="led-design">LED Design</h4>
 <p>To design <code>led[0]</code> and <code>led[1]</code> we can clearly see that <code>led[0]</code> is simply an exclusive or (XOR gate) of input <code>s0</code> and <code>s1</code>. While <code>led[1]</code> is an and gate of <code>s2</code> and <code>s3</code>. For <code>led[2]</code> it was necessary to make sure it blinked at 2.4 Hz. This means that every cycle of <code>led[2]</code> will last around 0.4167 seconds. Using a duty cycle of 50%, the LED needs to switch on or off every 0.2083 seconds. The HSOSC library was utilized to create a clock that oscillated at 48 Mhz meaning it ticks every <span class="math inline">\(2.083*10^-8\)</span> seconds. This meant that it would take <span class="math inline">\(10^8\)</span> ticks to complete a half cycle for <code>led[3]</code>. To design this a flip flop was used that counts every tick and switched the led on or off every 10,000,000 counts.</p>
@@ -509,7 +509,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/MaxDeSomma\.github\.io\/hmc-e155-portfolio\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
