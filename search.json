@@ -2,9 +2,9 @@
   {
     "objectID": "posts/second-post.html",
     "href": "posts/second-post.html",
-    "title": "Jumping into Micro Ps",
+    "title": "What is Time Division Multiplexing",
     "section": "",
-    "text": "Looking at the diagram below, you can see how time multiplexing generally works. The source transmits in multiple packets or frames of input data using a mux and then based on an input signal to the demux it sorts them in the right outputs. In this lab, we used this general idea slightly differently.\n\n\n\nsrc: scaler.com"
+    "text": "This week we used time multiplexing to drive a seven segment display. However before I attempted or to be honest fully understood the lab I researched time division multiplexing. Looking at the diagram below, you can see how time division multiplexing generally works. The source transmits multiple packets or frames of input data using a mux and then based on an input signal to the demux it sorts them in the right outputs. This makes an efficient way to transmit and recieve independant signal over a commong single path. During my research it reminded me of morse code, where we have the operator on one side who has a message and then turns it into a series of long and short pulses (0’s and 1’s) and then send it to the opeartor on the other side through a single wire. The operator on the other side then acts as the demux configuring it back into a message.\n\n\n\nsrc: scaler.com\n\n\nIn this lab, we used this idea generally, allowing us to send a double wide signal through a single path and then decoding it based on the timing on the other side. One real life example that I had never thought about was telephone calls. They use the same process of time multiplexing to send multiple calls using one wire. I am sure I will begin to see this everwhere now!"
   },
   {
     "objectID": "labs/lab2/lab2.html",
@@ -67,7 +67,7 @@
     "href": "blog.html",
     "title": "E155 Blog",
     "section": "",
-    "text": "Jumping into Micro Ps\n\n\n\n\n\nThe first week\n\n\n\n\n\nSep 4, 2024\n\n\nMax De Somma\n\n\n\n\n\n\n\n\n\n\n\n\nJumping into Micro Ps\n\n\n\n\n\nThe first week\n\n\n\n\n\nSep 4, 2024\n\n\nMax De Somma\n\n\n\n\n\n\nNo matching items"
+    "text": "What is Time Division Multiplexing\n\n\n\n\n\nNow I see it everywhere\n\n\n\n\n\nSep 11, 2024\n\n\nMax De Somma\n\n\n\n\n\n\n\n\n\n\n\n\nJumping into Micro Ps\n\n\n\n\n\nThe first week\n\n\n\n\n\nSep 4, 2024\n\n\nMax De Somma\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "labs/lab1/lab1.html",
