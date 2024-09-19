@@ -12,15 +12,15 @@ format:
 In this lab we learn how to use the FPGA to scan inputs from a 4x4 keypad.
 
 ## Lab Overview
-The goal of this lab was to use 16 button keypad to display the last two hexadecimal digitals pressed on the double seven segment display. This becomes more tricky than it sounds. This is because the FPGA must fight against switch bouncing and metastability. The keypad is just a series of rows and columns that are connected depending on which button is pressed.When pushed a connection is formed and there is a short between the specific row and column. 
+The goal of this lab was to use 16 button keypad to display the last two hexadecimal digitals pressed on the double seven segment display. This becomes more tricky than it sounds. This is because the FPGA must fight against switch bouncing and metastability. The keypad is just a series of rows and columns that are connected depending on which button is pressed. When pushed a connection is formed and there is a short between the specific row and column. 
 
 ![](images/keypad.png)
 
-Switch bouncing displayed in the diagram below. It is the phenomenon where signals from a switch can appear as if they are flipped on and off repeatedly in an extremely short time frame. This is due to the physical characteristic of buttons. When the two peices of metal come together to form a connection they make contact initially for a small amount of time and then seperate until connecting again, repeating this cycle until it is fully connected. 
+Switch bouncing displayed in the diagram below, is the phenomenon where signals from a switch can appear as if they are flipped on and off repeatedly in an extremely short time frame. This is due to the physical characteristic of buttons. When the two peices of metal come together to form a connection they make contact initially for a small amount of time and then seperate until connecting again, repeating this cycle until it is fully connected. 
 
 ![circuitdigest.com](images/switchBouncing.png)
 
-Depending on your button you might see zero switch bouncing or extreme switch bouncing ranging from a few micro seconds to milliseconds. After testing the lab keypad I found that they had zero switch bouncing on any button as you can see from the oscilloscope below. However the systemVerilog still acounted for it. 
+Depending on your button you might see zero switch bouncing or extreme switch bouncing ranging from a few micro seconds to milliseconds. After testing the lab keypad I found that they had zero switch bouncing on any button as you can see from the oscilloscope below. However this lab's code still acounted for it incase other keypads were used. 
 
 ![Oscilloscope of pressing a switch](images/noSwitchBouncing.png)
 
@@ -29,11 +29,11 @@ The other problem the keypad has is metastability. Metastability can happen with
 ![nandland.com](images/metastability.png)
 
 ## Design the FSM
-To design this lab we had to implement an FSM to make sure that when a button held it is only registerd as one valid press and you can't press other buttons while its held. The following FSM was used.
+To design this lab we had to implement an FSM to make sure that when a button held it is only registered as one valid press and you can't press other buttons while its held. The following FSM was used.
 
 ![](images/fsm.png)
 
-For this lab I decided that the FGPA would output a signal to drive the rows high and the columns would be inputs to the FPGA showing when there was a vaild connection. However you can't scan all four rows at the same time as then whenever a column recieved an input you wouldn't be able to tell which button in the column it came from. To fix this the FSM scanned all the rows. Driving each one high seperately for one clock cycle each until the FPGA recieved a valid column signal. The FSM would then branch out holding that one row high, help determine which button is being pressed, and lastly enable the seven segment decoder to show a new number. Once the button is released it goes back to set each of rows high at different times.
+For this lab I decided that the FGPA would output a signal to drive the rows high and the columns would be inputs to the FPGA to show when there is a vaild connection. However you can't scan all four rows at the same time as then whenever a column recieved an input you wouldn't be able to tell which button in the column it came from. To fix this the FSM scanned all the rows. Driving each one high seperately for one clock cycle each until the FPGA recieved a valid column signal. The FSM would then branch out holding that one row high to help determine which button is being pressed, and then it would enable the seven segment decoder to show a new number. Once the button is released it goes back to scanning.
 
 The systemVerilog code followed the following block diagram. 
 
