@@ -143,6 +143,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../labs/lab2/lab2.html">
  <span class="dropdown-text">Lab 2</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../labs/lab3/lab3.html">
+ <span class="dropdown-text">Lab 3</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -168,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#wiring-up-the-board" id="toc-wiring-up-the-board" class="nav-link" data-scroll-target="#wiring-up-the-board">Wiring up the Board</a></li>
   <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
   </ul>
-<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab1"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab2"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -198,23 +202,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="lab-overview" class="level2">
 <h2 class="anchored" data-anchor-id="lab-overview">Lab Overview</h2>
-<p>The goal for this lab was to power two seven segment displays using seven output pins, by utilizing time multiplexing. In addition to using time multiplexing to run two seven segment displays, transistors were utilized to drive large currents to the common annodes of the seven segment displays. This allowed pins on the FPGA which aren’t capable of driving large currents themselves to use the transistors as a switch allowing the FPGA to toggle the displays on and off quickly.</p>
+<p>The goal for this lab was to power two seven segment displays using seven output pins, by using time multiplexing. In addition to using time multiplexing to run two seven segment displays, transistors were used to drive large currents to the common annodes of the seven segment displays. This allowed pins on the FPGA which aren’t capable of driving large currents themselves to use the transistors as a switch allowing the FPGA to toggle the displays on and off quickly.</p>
 </section>
 <section id="design-approach" class="level2">
 <h2 class="anchored" data-anchor-id="design-approach">Design Approach</h2>
-<p>Time multiplexing is a way to share expensive hardware for different purposes using specific timing. We used multiplexing in this lab by driving two seperate seven segment displays using only seven pins. How it works in this lab is that the same signal (i.e.&nbsp;the same hexadecimal number) is sent to both seven segments. However, two FPGA pins are used to control the common annode’s on either display, toggling one off while the other is on, and synchonously switching the hexadecimal output with the pwoer toggle at around 240 Hz to make it look as if there are two distinct numbers. Both displays are controlled by their own quad dip switch input, and lastly the sum of both numbers are displayed as a five bit number on five seperate LEDS.</p>
+<p>Time multiplexing is a way to share expensive hardware for different purposes using specific timing. We used multiplexing in this lab by driving two seperate seven segment displays using only seven pins. How it works in this lab is that the same signal (i.e., the same hexadecimal number) is sent to both seven segments. However, two FPGA pins are used to control the common annode’s on either display, toggling one off while the other is on, and synchonously switching the hexadecimal output with the pwoer toggle at around 240 Hz to make it look as if there are two distinct numbers. Both displays are controlled by their own quad dip switch input, and lastly the sum of both numbers are displayed as a five bit number on five seperate LEDS.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/overviewCircuit.jpg" class="img-fluid figure-img"></p>
-<figcaption>Two working seven segment displays utilizing time multiplexing</figcaption>
+<figcaption>Two working seven segment displays using time multiplexing</figcaption>
 </figure>
 </div>
 <p>The systemVerilog code that was flashed onto the fpga followed the block diagram below. The top module <code>Lab 2</code> has inputs <code>s1 [3:0]</code> and <code>s2 [3:0]</code> which come from each of the quad dip switches. Those inputs then enter <code>ledSum</code> which is just an adder summing the two inputs into <code>sum [4:0]</code>. <code>s1</code> and <code>s2</code> also enter the <code>sevenSegment module</code> in addition to the <code>clk</code> signal which comes from the <code>HSOSC</code>. The <code>sevenSegment</code> module then alternates between turning on the left or right led segment using <code>led1</code> and <code>led2</code> outputs which are connected to the transistors as well as outputts the correct <code>seg [6:0]</code> output to light up specific segments on the display. <code>led1</code> and <code>led2</code> are toggled based on the 4.8 MHz <code>clk</code> signal which is modified to effectively act as a 240 Hz clock which flips <code>led1</code> and <code>led2</code> every cycle.</p>
-<p><img src="images/lab2BlockDiagram.png" class="img-fluid"></p>
+<p><img src="images/lab2BlockDiagram1.png" class="img-fluid"></p>
 </section>
 <section id="testing-approach" class="level2">
 <h2 class="anchored" data-anchor-id="testing-approach">Testing Approach</h2>
-<p>To test the modules discussed above a testbench was utilized to run a device under test. This test bench was quite simple compared to the last lab and did not utilize test vectors but instead was used to monitor when <code>led1</code> and <code>led2</code> toggled on or off and if the correct <code>seg[6:0]</code> was outputted depedning on which segment was powered. The DUT ended up being the <code>segmentSwitcher</code> module. Initially I planned to test each module seperately however the <code>sevenSegment</code> module was tested last week and <code>ledSum</code> just summed two inputs, so I decided to test all of <code>segmentSwitcher</code>. The systemVerilog used is provided below.</p>
+<p>To test the modules discussed above a testbench was used to run a device under test. This test bench was quite simple compared to the last lab and did not use test vectors but instead was used to monitor when <code>led1</code> and <code>led2</code> toggled on or off and if the correct <code>seg[6:0]</code> was outputted depedning on which segment was powered. The DUT ended up being the <code>segmentSwitcher</code> module. Initially I planned to test each module seperately however the <code>sevenSegment</code> module was tested last week and <code>ledSum</code> just summed two inputs, so I decided to test all of <code>segmentSwitcher</code>. The systemVerilog used is provided below.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>module segmentSwitcher_tb();</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> // Set up test signals</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> logic clk;</span>
@@ -256,7 +260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="outcome" class="level2">
 <h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
-<p>Below you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the two hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module utilizing transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.</p>
+<p>Below you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the two hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module using transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.</p>
 <p><video src="images/ledMov.mov" class="img-fluid" controls=""><a href="images/ledMov.mov">Video</a></video></p>
 <p>Hours in lab this week: 16 hours</p>
 

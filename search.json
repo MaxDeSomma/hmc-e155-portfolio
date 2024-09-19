@@ -7,67 +7,53 @@
     "text": "This week we used time multiplexing to drive a seven segment display. However before I attempted or to be honest fully understood the lab I researched time division multiplexing. Looking at the diagram below, you can see how time division multiplexing generally works. The source transmits multiple packets or frames of input data using a mux and then based on an input signal to the demux it sorts them in the right outputs. This makes an efficient way to transmit and recieve independant signal over a commong single path. During my research it reminded me of morse code, where we have the operator on one side who has a message and then turns it into a series of long and short pulses (0’s and 1’s) and then send it to the opeartor on the other side through a single wire. The operator on the other side then acts as the demux configuring it back into a message.\n\n\n\nsrc: scaler.com\n\n\nIn this lab, we used this idea generally, allowing us to send a double wide signal through a single path and then decoding it based on the timing on the other side. One real life example that I had never thought about was telephone calls. They use the same process of time multiplexing to send multiple calls using one wire. I am sure I will begin to see this everwhere now!"
   },
   {
-    "objectID": "labs/lab2/lab2.html",
-    "href": "labs/lab2/lab2.html",
-    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "objectID": "labs/lab3/lab3.html",
+    "href": "labs/lab3/lab3.html",
+    "title": "Lab 3: FPGA and MCU Setup and Testing",
     "section": "",
-    "text": "In this lab we learned how to use time multiplxing to efficiently use the I/O on our FPGA."
+    "text": "In this lab we learn how to use the FPGA to scan inputs from a 4x4 keypad."
   },
   {
-    "objectID": "labs/lab2/lab2.html#introduction",
-    "href": "labs/lab2/lab2.html#introduction",
-    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "objectID": "labs/lab3/lab3.html#introduction",
+    "href": "labs/lab3/lab3.html#introduction",
+    "title": "Lab 3: FPGA and MCU Setup and Testing",
     "section": "",
-    "text": "In this lab we learned how to use time multiplxing to efficiently use the I/O on our FPGA."
+    "text": "In this lab we learn how to use the FPGA to scan inputs from a 4x4 keypad."
   },
   {
-    "objectID": "labs/lab2/lab2.html#lab-overview",
-    "href": "labs/lab2/lab2.html#lab-overview",
-    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "objectID": "labs/lab3/lab3.html#lab-overview",
+    "href": "labs/lab3/lab3.html#lab-overview",
+    "title": "Lab 3: FPGA and MCU Setup and Testing",
     "section": "Lab Overview",
-    "text": "Lab Overview\nThe goal for this lab was to power two seven segment displays using seven output pins, by utilizing time multiplexing. In addition to using time multiplexing to run two seven segment displays, transistors were utilized to drive large currents to the common annodes of the seven segment displays. This allowed pins on the FPGA which aren’t capable of driving large currents themselves to use the transistors as a switch allowing the FPGA to toggle the displays on and off quickly."
+    "text": "Lab Overview\nThe goal of this lab was to use 16 button keypad to display the last two hexadecimal digitals pressed on the double seven segment display. This becomes more tricky than it sounds. This is because the FPGA must fight against switch bouncing and metastability. The keypad is just a series of rows and columns that are connected depending on which button is pressed.When pushed a connection is formed and there is a short between the specific row and column.\n\nSwitch bouncing displayed in the diagram below. It is the phenomenon where signals from a switch can appear as if they are flipped on and off repeatedly in an extremely short time frame. This is due to the physical characteristic of buttons. When the two peices of metal come together to form a connection they make contact initially for a small amount of time and then seperate until connecting again, repeating this cycle until it is fully connected.\n\n\n\ncircuitdigest.com\n\n\nDepending on your button you might see zero switch bouncing or extreme switch bouncing ranging from a few micro seconds to milliseconds. After testing the lab keypad I found that they had zero switch bouncing on any button as you can see from the oscilloscope below. However the systemVerilog still acounted for it.\n\n\n\nOscilloscope of pressing a switch\n\n\nThe other problem the keypad has is metastability. Metastability can happen with digital logic when physical inputs don’t line up with the clock cycles correctly and are incorrectly sampled before the signal is fully stable. To fix that synchronizers were used to make sure the signal was stable. This can be accomlished using multiple flip flops and only using the stable output.\n\n\n\nnandland.com"
   },
   {
-    "objectID": "labs/lab2/lab2.html#design-approach",
-    "href": "labs/lab2/lab2.html#design-approach",
-    "title": "Lab 2: FPGA and MCU Setup and Testing",
-    "section": "Design Approach",
-    "text": "Design Approach\nTime multiplexing is a way to share expensive hardware for different purposes using specific timing. We used multiplexing in this lab by driving two seperate seven segment displays using only seven pins. How it works in this lab is that the same signal (i.e. the same hexadecimal number) is sent to both seven segments. However, two FPGA pins are used to control the common annode’s on either display, toggling one off while the other is on, and synchonously switching the hexadecimal output with the pwoer toggle at around 240 Hz to make it look as if there are two distinct numbers. Both displays are controlled by their own quad dip switch input, and lastly the sum of both numbers are displayed as a five bit number on five seperate LEDS.\n\n\n\nTwo working seven segment displays utilizing time multiplexing\n\n\nThe systemVerilog code that was flashed onto the fpga followed the block diagram below. The top module Lab 2 has inputs s1 [3:0] and s2 [3:0] which come from each of the quad dip switches. Those inputs then enter ledSum which is just an adder summing the two inputs into sum [4:0]. s1 and s2 also enter the sevenSegment module in addition to the clk signal which comes from the HSOSC. The sevenSegment module then alternates between turning on the left or right led segment using led1 and led2 outputs which are connected to the transistors as well as outputts the correct seg [6:0] output to light up specific segments on the display. led1 and led2 are toggled based on the 4.8 MHz clk signal which is modified to effectively act as a 240 Hz clock which flips led1 and led2 every cycle."
+    "objectID": "labs/lab3/lab3.html#design-the-fsm",
+    "href": "labs/lab3/lab3.html#design-the-fsm",
+    "title": "Lab 3: FPGA and MCU Setup and Testing",
+    "section": "Design the FSM",
+    "text": "Design the FSM\nTo design this lab we had to implement an FSM to make sure that when a button held it is only registerd as one valid press and you can’t press other buttons while its held. The following FSM was used.\n\nFor this lab I decided that the FGPA would output a signal to drive the rows high and the columns would be inputs to the FPGA showing when there was a vaild connection. However you can’t scan all four rows at the same time as then whenever a column recieved an input you wouldn’t be able to tell which button in the column it came from. To fix this the FSM scanned all the rows. Driving each one high seperately for one clock cycle each until the FPGA recieved a valid column signal. The FSM would then branch out holding that one row high, help determine which button is being pressed, and lastly enable the seven segment decoder to show a new number. Once the button is released it goes back to set each of rows high at different times.\nThe systemVerilog code followed the following block diagram.\n\nIn the top level module we defined the HSOSC and inputed that into the Master module which then slowed down the clk and inverted the reset as the onboard switches use pull up resistors. The inputs c and reset then went into the synchronizer where we used two flip flops to make sure that c was stable as it entered the FSM. In the FSM en, counter, and rowPressed was generated which were used in the buttonDecoder and ledController. The FSM also determined which rows were powered by determining the logic for r. buttonDecoder took in c and rowPressed and then determined which four bit hexadecimal number it corresponded to outputting it as s. s,en, counter, clk, and reset was inputed into ledController which was built upon the last lab and was able to use time multiplexing to drive two seven segments displays outputting which seven segment should be based on led1 and led2 as well as the number seg. Additionally it used counter to create a digital low pass filter and make sure that if there was any switch bouncing it would not incorrectly affect the output."
   },
   {
-    "objectID": "labs/lab2/lab2.html#testing-approach",
-    "href": "labs/lab2/lab2.html#testing-approach",
-    "title": "Lab 2: FPGA and MCU Setup and Testing",
-    "section": "Testing Approach",
-    "text": "Testing Approach\nTo test the modules discussed above a testbench was utilized to run a device under test. This test bench was quite simple compared to the last lab and did not utilize test vectors but instead was used to monitor when led1 and led2 toggled on or off and if the correct seg[6:0] was outputted depedning on which segment was powered. The DUT ended up being the segmentSwitcher module. Initially I planned to test each module seperately however the sevenSegment module was tested last week and ledSum just summed two inputs, so I decided to test all of segmentSwitcher. The systemVerilog used is provided below.\nmodule segmentSwitcher_tb();\n // Set up test signals\n logic clk;\n logic [3:0] s1,s2;\n logic led1, led2;\n logic [4:0] sum;\n logic [6:0] seg;\n\n // Instantiate the device under test\n segmentSwitcher dut(.s1(s1),.s2(s2), .clk(clk), .led1(led1),.led2(led2), .seg(seg), .sum(sum));\n\n // Generate clock signal with a period of 10 timesteps.\n always\n   begin\n     clk = 1; #5;\n     clk = 0; #5;\n   end\n\ninitial\n begin\n    // test different inputs\n    s1 = 4'b0000;\n    s2 = 4'b1111;\n    #20;\n    s1 = 4'b1000;\n    s2 = 4'b0001;\n    #20;\n    s1 = 4'b1010;\n    s2 = 4'b1001;\n    #20;\n end\nendmodule\nThe results from the wave function can be seen below. We can see that led1 and led2 oscillate oppositely as intended. In addition seg correctly outputs s1 if led1 is high and s2 if led2 is high. Lastly the summing module successfully sums s1 and s2 together and outputs it to sum."
+    "objectID": "labs/lab3/lab3.html#testing-all-the-modules",
+    "href": "labs/lab3/lab3.html#testing-all-the-modules",
+    "title": "Lab 3: FPGA and MCU Setup and Testing",
+    "section": "Testing all the Modules",
+    "text": "Testing all the Modules\nDue this labs much complex structure than last lab a lot more was done in simulation before it was uploaded to the FPGA and wired up. The modules simulated were buttonFSM, ledController, and buttonDecoder. We first tested the buttonDecoder module. This involved making a simple testbench that gave it some example key presses to determine if it would output the correct 4-bit signal representing the hexadecimal pressed. From the wave below you can see that it outputs the correct signal based on the key pressed. You can also see that when two keys pressed together are simulated the ledDecoder goes to its default case statement of F however concerning the FSM should prevent two keys from being pressed simultaneously.\n\n\n\nledDecoder Test Bench\n\n\nThe next module tested was ledController. The idea behind ledController is similar to last lab where it drives a double seven segment display. However we also wanted it to shift the numbers over as a new one was pressed, shifting everything left and adding the new onw on the right if it had the proper enable from the FSM. From the wave output below it shows that s1 and s2 the two hexidecimal numbers for the two led displays only change when en is high and shift properly, with s1 getting s and s2 getting s1 in a flip flop. Additionally ledController switched which seven segment was on at the right speed and outputted the corresponding seven bit seg number to turn on certain diodes.\n\n\n\nledController Test Bench\n\n\nThe final module tested was the FSM. For the testbench of the FSM, it was simply initialized as the device under test and then reset. On the wave we can see that after it is reset it properly scans through all the rows powering them high. Then we can input a single column pretending as if there is a real time input. This results in a specific row staying high until the FSM move into the next state where all the rows are high so we don’t see any of the errors mentioned in my blog, until the button is released. However we have the rowPressed variable at the bottom that keep track of which row was pressed initially so that the ledDecoder works properly. It then returns to scanning again. Near the end of the wave an input of 1000 half a clock cycle later the input changes to 1100 simulating someone pressing another button. The module however does not change the colPressed and will output the correct hexadecimal number\n\n\n\nFSM Test Bench"
   },
   {
-    "objectID": "labs/lab2/lab2.html#wiring-up-the-board",
-    "href": "labs/lab2/lab2.html#wiring-up-the-board",
-    "title": "Lab 2: FPGA and MCU Setup and Testing",
-    "section": "Wiring up the Board",
-    "text": "Wiring up the Board\nAfter writing the system verilog modules and thoroughly testing them in a testbench it was time to wire of the FPGA. The FPGA was wired according to the pin layout below. The transistors used were PNP transistors (PN 2907). These were used to drive the common annodes of the displays to 3.3V and were switched on when P47 and P2 were driven low.  Again resistors were used to limit the current for the I/O pins and the LEDs. The work for calculating the transistor base resistor, the seven segment resistor, and the yellow led resistor are shown below. The data sheet states that the recommended current for the FPGA I/O should be 8 mA. The transistor uses a diode that has a forward foltage of 0.7 V, from there we can calculate the resistance we need to set the current to 8 mA. The resistance ended up being 325 Ohms, which was close enough to the 330 Ohm resistors found in the lab. The seven segment display has a forward voltage of 1.8 V and the target amperage was 8 mA again, resuling in a resistance of 163 Ohms which was close to the 200 Ohm resistor in the cabinet. lastly for the yellow LEDs, I wanted them to be bright so I targeted a higher current of 15 mA, which correlates to a 100 Ohm resistance. Lastly for the addition quad dip switch used in this lab, internal FPGA pull up resistors of 100 kOhm were used."
+    "objectID": "labs/lab3/lab3.html#wiring-up-the-board",
+    "href": "labs/lab3/lab3.html#wiring-up-the-board",
+    "title": "Lab 3: FPGA and MCU Setup and Testing",
+    "section": "Wiring up the board",
+    "text": "Wiring up the board\nAfter making sure the simulated modules worked correctly they were uploaded to radiant and the board was wired to the following specification below.\n\nThe FGPA pins were then connected to the correct outputs and inputs in radiant, the video below shows a working lab3 where the the button pressed on the keypad show up on the dual seven segment display. 100kOhm resistors were used on the columns of the keypad to act as pulldown resistors showing a valid low signal when nothing was pressed. The resistors for the diode and dual seven segment display were kept the same from last lab."
   },
   {
-    "objectID": "labs/lab2/lab2.html#outcome",
-    "href": "labs/lab2/lab2.html#outcome",
-    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "objectID": "labs/lab3/lab3.html#outcome",
+    "href": "labs/lab3/lab3.html#outcome",
+    "title": "Lab 3: FPGA and MCU Setup and Testing",
     "section": "Outcome",
-    "text": "Outcome\nBelow you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the two hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module utilizing transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.\nVideo\nHours in lab this week: 16 hours"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "E155 Portfolio",
-    "section": "",
-    "text": "Hello I am Max De Somma, a senior Engineering major at Harvey Mudd College in Claremont, California. My academic interests include a mixture of electrical and mechanical design which I am hoping to deepen in E155. I currently work in the student machine shop on campus where I help students and faculty learn how to safely operate heavy machinery. When I am not doing homework or in the shop, I enjoy riding bikes, swimming, and playing board games."
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "E155 Blog",
-    "section": "",
-    "text": "What is Time Division Multiplexing\n\n\n\n\n\nNow I see it everywhere\n\n\n\n\n\nSep 11, 2024\n\n\nMax De Somma\n\n\n\n\n\n\n\n\n\n\n\n\nJumping into Micro Ps\n\n\n\n\n\nThe first week\n\n\n\n\n\nSep 4, 2024\n\n\nMax De Somma\n\n\n\n\n\n\nNo matching items"
+    "text": "Outcome\nThis lab turned out to be a success. However this lab writeup makes it seem easier than it was. There were dozens of small bugs and features that did not work initially and had to be reformed and changed, it was quite frustrating however I learn how to use the oscilloscope and simulation to my benefit, becoming crucial tools. In the end the keypad was able to communicate user input to the FPGA shifting the dual seven segment display to the correct number on the right side. Additionally the synchronizers were used to get rid of metastable inputs, the FSM countered any switch bouncing from the keypad, and it can deal with multiple key presses at once.\nTime in lab: 23 Hours."
   },
   {
     "objectID": "labs/lab1/lab1.html",
@@ -103,6 +89,69 @@
     "title": "Lab 1: FPGA and MCU Setup and Testing",
     "section": "FPGA Design",
     "text": "FPGA Design\n\nLab Description\nAfter I had thoroughly tested that my FPGA, MCU, and development board, I designed FPGA modules to control different LEDs. The task was to light up the LED’s and a seven segment display depending on what dip switches were selected, described more in the table below.\n\n\n\nSignal Name\nSignal Type\nDescription\n\n\n\n\ns[3:0]\ninput\nthe four DIP switches (on the board, SW6)\n\n\nled[2:0]\noutput\n3 LEDs (you may use the on-board LEDs)\n\n\nseg[6:0]\noutput\nthe segments of a common-anode 7-segment display\n\n\n\nTwo of the LEDs, led[0] and led[1], were designed accordingly:\n\n\n\n\ns1\ns0\nled[0]\n\n\n\n\n0\n0\n0\n\n\n0\n1\n1\n\n\n1\n0\n1\n\n\n1\n1\n0\n\n\n\n\n\n\n\n\ns3\ns2\nled[1]\n\n\n\n\n0\n0\n0\n\n\n0\n1\n0\n\n\n1\n0\n0\n\n\n1\n1\n1\n\n\n\n\nled[2] did not follow a truth table but instead was designed to blink at 2.4 Hz.\nAs for the seven segment display it needs to read in the dip switch signals and display the four bit binary number as a single hexadecimal number on the seven segment display. For example if the dip switch input s[3:0] was 0110 the seven segment display must show a 6 while if it was 1101 it would display a d.\n\n\nDesign\nBelow is the block diagram used to design the combinational logic that that drove both the LEDs and seven segment display:\n\n\nLED Design\nTo design led[0] and led[1] we can clearly see that led[0] is simply an exclusive or (XOR gate) of input s0 and s1. While led[1] is an and gate of s2 and s3. For led[2] it was necessary to make sure it blinked at 2.4 Hz. This means that every cycle of led[2] will last around 0.4167 seconds. Using a duty cycle of 50%, the LED needs to switch on or off every 0.2083 seconds. The HSOSC library was utilized to create a clock that oscillated at 48 Mhz meaning it ticks every \\(2.083*10^-8\\) seconds. This meant that it would take \\(10^8\\) ticks to complete a half cycle for led[3]. To design this a flip flop was used that counts every tick and switched the led on or off every 10,000,000 counts.\n\n\nSeven Segment Design\nTo design the seven segment display the SystemVerilog module used a submodule which had an input of s[3:0] and an output of seg[6:0]. This submodule comntained a case statement with 16 cases, one for each off the possible dip switch combinations (4’b000, 4’b0001, … , 4’b1111). Once the SystemVerilog checked the case it would then turn off the specific pins that correlated to the specific segments to create each hexadecimal number. One interesting point about the seven segment display is that it was common annode, meaning it had one common pin at 3.3V, meaning the FPGA must drive the desired pin to low to light up the particular segment.\n\n\n\nTesting\nA test bench was used to test the SystemVerilog code was working according to the proposed design. The testbench ran all 16 cominations of the dip switches and tested the expected led[3:0] and expected seg[6:0] outputs vs what the actual output of the modules would be in simulation.\n// sevenSeg_testvectors.tv\n// Max De Somma\n// mdesomma@g.hmc.edu\n// 9/3/24\n\n// [3:0]s, [2:0]led, [6:0]segment\n0000_000_1000000\n0001_001_1110011\n0010_001_0100100\n0011_000_0100001\n0100_000_0010011\n0101_001_0001001\n0110_001_0001000\n0111_000_1100011\n1000_000_0000000\n1001_001_0000001\n1010_001_0000010\n1011_000_0011000\n1100_010_1001100\n1101_011_0110000\n1110_011_0001100\n1111_010_0001110\nThe test vector file above was the one used in the testbench that had the correct output for every case. Every test passed proving the SystemVerilog code worked correctly.\n\nHowever the testbench fell short as led[2] was not able to be tested which is clear in the photo above. This was due to the fact that the HSOSC libary was not include in model sim. However it was possible to validate it using an oscilloscope proving it oscillated between 0 V and 3.3V at a freq of 2.42 Hz which is close to the desired 2.40 Hz. \n\n\nWiring and Outcome\nAfter writing and testing the SystemVerilog, it was time to connect the LED’s and Seven Segment to my FPGA using the following wiring schematic.\n\nHowever to prevent the seven segment drawing too much current, current limiting resistors were added to all seven seg[7:0] pins targeting 15 mA. On the seven segment data sheet, it stated that the red led segments had a forward voltage of 1.8 V. This meant that voltage across the resistor would be 1.5 V, and thus could use V = IR with a target current of 0.15 mA to calculate R.\n\nAfter finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionally as shown above the led[2] blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours.\n\n\n\nThe correct output of led[0] and the Seven Segment displaying 6 for input 4’b0110\n\n\n\n\n\nThe correct output of led[1] and the Seven Segment displaying C for input 4’b110"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "E155 Blog",
+    "section": "",
+    "text": "What is Time Division Multiplexing\n\n\n\n\n\nNow I see it everywhere\n\n\n\n\n\nSep 11, 2024\n\n\nMax De Somma\n\n\n\n\n\n\n\n\n\n\n\n\nJumping into Micro Ps\n\n\n\n\n\nThe first week\n\n\n\n\n\nSep 4, 2024\n\n\nMax De Somma\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "E155 Portfolio",
+    "section": "",
+    "text": "Hello I am Max De Somma, a senior Engineering major at Harvey Mudd College in Claremont, California. My academic interests include a mixture of electrical and mechanical design which I am hoping to deepen in E155. I currently work in the student machine shop on campus where I help students and faculty learn how to safely operate heavy machinery. When I am not doing homework or in the shop, I enjoy riding bikes, swimming, and playing board games."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html",
+    "href": "labs/lab2/lab2.html",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "",
+    "text": "In this lab we learned how to use time multiplxing to efficiently use the I/O on our FPGA."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#introduction",
+    "href": "labs/lab2/lab2.html#introduction",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "",
+    "text": "In this lab we learned how to use time multiplxing to efficiently use the I/O on our FPGA."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#lab-overview",
+    "href": "labs/lab2/lab2.html#lab-overview",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "Lab Overview",
+    "text": "Lab Overview\nThe goal for this lab was to power two seven segment displays using seven output pins, by using time multiplexing. In addition to using time multiplexing to run two seven segment displays, transistors were used to drive large currents to the common annodes of the seven segment displays. This allowed pins on the FPGA which aren’t capable of driving large currents themselves to use the transistors as a switch allowing the FPGA to toggle the displays on and off quickly."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#design-approach",
+    "href": "labs/lab2/lab2.html#design-approach",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "Design Approach",
+    "text": "Design Approach\nTime multiplexing is a way to share expensive hardware for different purposes using specific timing. We used multiplexing in this lab by driving two seperate seven segment displays using only seven pins. How it works in this lab is that the same signal (i.e., the same hexadecimal number) is sent to both seven segments. However, two FPGA pins are used to control the common annode’s on either display, toggling one off while the other is on, and synchonously switching the hexadecimal output with the pwoer toggle at around 240 Hz to make it look as if there are two distinct numbers. Both displays are controlled by their own quad dip switch input, and lastly the sum of both numbers are displayed as a five bit number on five seperate LEDS.\n\n\n\nTwo working seven segment displays using time multiplexing\n\n\nThe systemVerilog code that was flashed onto the fpga followed the block diagram below. The top module Lab 2 has inputs s1 [3:0] and s2 [3:0] which come from each of the quad dip switches. Those inputs then enter ledSum which is just an adder summing the two inputs into sum [4:0]. s1 and s2 also enter the sevenSegment module in addition to the clk signal which comes from the HSOSC. The sevenSegment module then alternates between turning on the left or right led segment using led1 and led2 outputs which are connected to the transistors as well as outputts the correct seg [6:0] output to light up specific segments on the display. led1 and led2 are toggled based on the 4.8 MHz clk signal which is modified to effectively act as a 240 Hz clock which flips led1 and led2 every cycle."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#testing-approach",
+    "href": "labs/lab2/lab2.html#testing-approach",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "Testing Approach",
+    "text": "Testing Approach\nTo test the modules discussed above a testbench was used to run a device under test. This test bench was quite simple compared to the last lab and did not use test vectors but instead was used to monitor when led1 and led2 toggled on or off and if the correct seg[6:0] was outputted depedning on which segment was powered. The DUT ended up being the segmentSwitcher module. Initially I planned to test each module seperately however the sevenSegment module was tested last week and ledSum just summed two inputs, so I decided to test all of segmentSwitcher. The systemVerilog used is provided below.\nmodule segmentSwitcher_tb();\n // Set up test signals\n logic clk;\n logic [3:0] s1,s2;\n logic led1, led2;\n logic [4:0] sum;\n logic [6:0] seg;\n\n // Instantiate the device under test\n segmentSwitcher dut(.s1(s1),.s2(s2), .clk(clk), .led1(led1),.led2(led2), .seg(seg), .sum(sum));\n\n // Generate clock signal with a period of 10 timesteps.\n always\n   begin\n     clk = 1; #5;\n     clk = 0; #5;\n   end\n\ninitial\n begin\n    // test different inputs\n    s1 = 4'b0000;\n    s2 = 4'b1111;\n    #20;\n    s1 = 4'b1000;\n    s2 = 4'b0001;\n    #20;\n    s1 = 4'b1010;\n    s2 = 4'b1001;\n    #20;\n end\nendmodule\nThe results from the wave function can be seen below. We can see that led1 and led2 oscillate oppositely as intended. In addition seg correctly outputs s1 if led1 is high and s2 if led2 is high. Lastly the summing module successfully sums s1 and s2 together and outputs it to sum."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#wiring-up-the-board",
+    "href": "labs/lab2/lab2.html#wiring-up-the-board",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "Wiring up the Board",
+    "text": "Wiring up the Board\nAfter writing the system verilog modules and thoroughly testing them in a testbench it was time to wire of the FPGA. The FPGA was wired according to the pin layout below. The transistors used were PNP transistors (PN 2907). These were used to drive the common annodes of the displays to 3.3V and were switched on when P47 and P2 were driven low.  Again resistors were used to limit the current for the I/O pins and the LEDs. The work for calculating the transistor base resistor, the seven segment resistor, and the yellow led resistor are shown below. The data sheet states that the recommended current for the FPGA I/O should be 8 mA. The transistor uses a diode that has a forward foltage of 0.7 V, from there we can calculate the resistance we need to set the current to 8 mA. The resistance ended up being 325 Ohms, which was close enough to the 330 Ohm resistors found in the lab. The seven segment display has a forward voltage of 1.8 V and the target amperage was 8 mA again, resuling in a resistance of 163 Ohms which was close to the 200 Ohm resistor in the cabinet. lastly for the yellow LEDs, I wanted them to be bright so I targeted a higher current of 15 mA, which correlates to a 100 Ohm resistance. Lastly for the addition quad dip switch used in this lab, internal FPGA pull up resistors of 100 kOhm were used."
+  },
+  {
+    "objectID": "labs/lab2/lab2.html#outcome",
+    "href": "labs/lab2/lab2.html#outcome",
+    "title": "Lab 2: FPGA and MCU Setup and Testing",
+    "section": "Outcome",
+    "text": "Outcome\nBelow you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the two hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module using transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.\nVideo\nHours in lab this week: 16 hours"
   },
   {
     "objectID": "posts/first-post.html",
