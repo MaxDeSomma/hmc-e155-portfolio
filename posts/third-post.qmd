@@ -1,0 +1,15 @@
+---
+title: "My Oscilloscope Odyssey"
+description: "Turns out they might be useful"
+author: "Max De Somma"
+date: "9/19/24"
+categories:
+  - reflection
+draft: false
+---
+This weeks lab was described as "a thinking persons lab" and it was nothing short of that. We had to design an FPGA to drive and read in inputs from a 16 button keypad, displaying the numbers on a dual seven segment display, easy right? This meant accounting for switch bouncing, shifting new hexadecimal numbers onto the dual display, and making sure that the external human input is synchronized with the system clock. Simulation turned out to be imperative for a design of this scale, however simulation can't tell you everything. One constraint for this lab was that while one button is held the user should not be able to register another press of any button. However I kept running into a problem that was not caught in simulation. Anytime I pressed a button and then pressed a button in its respective column the seven segment would register the new keypress. Acknowledging this problem I frustratingly went through my code dozens of times and ran many more simulation to no success. While my past history using an oscilloscope had been dodgy I knew I woukld need to test the physical properties of the circuit. I realized that by pressing another column it was bouncing the SystemVerilog's current state out into the scanning states, but I didn't get why. I unenthusiastically hooked up the oscilloscope held one key and pressed the one right above, producing the following image. 
+
+![src: scaler.com](images/blog3Osc.png)
+
+To my horror my held button signal would drop every time another key in the same column was pressed, driving it from 3.3 V to 0 V for split seconds. This was a huge moment in my lab as not only did I finally understand what bug was preventing me from finishing my design but I also understood why the oscilloscope is so useful. This phenomenon occured because when scanning the rows my modules forced the held button's row high while the other row's low meaning when another button in the same column was pushed down, the 3.3 V signal was fighting the 0 V signal coming into the same column pin forcing it to have the effect above. After visualizing that I was able to easily put in a work around to successfully debug my circuit! To simply conclude the oscilloscope is "a thinking persons tool."
+
