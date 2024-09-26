@@ -71,7 +71,7 @@ Again resistors were used to limit the current for the I/O pins and the LEDs. Th
 ![](images/resistanceCalcs.png)
 
 ## Outcome
-Below you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the two hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module using transistors, displaying the correct output depedning on the input, and finally not having any visual flickering or bleeding.  
+Below you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the two hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module using transistors, displaying the correct output depending on the input, and finally not having any visual flickering or bleeding.  
 
 ![](images/ledMov.mov)
 

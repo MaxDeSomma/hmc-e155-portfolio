@@ -16,11 +16,11 @@ The goal of this lab was to use 16 button keypad to display the last two hexadec
 
 ![](images/keypad.png)
 
-Switch bouncing displayed in the diagram below. It is the phenomenon where signals from a switch can appear as if they are flipped on and off repeatedly in an extremely short time frame. This is due to the physical characteristic of buttons. When the two peices of metal come together to form a connection they make contact initially for a small amount of time and then seperate until connecting again, repeating this cycle until it is fully connected. 
+Switch bouncing displayed in the diagram below, is the phenomenon where signals from a switch can appear as if they are flipped on and off repeatedly in an extremely short time frame. This is due to the physical characteristic of buttons. When the two peices of metal come together to form a connection they make contact initially for a small amount of time and then seperate until connecting again, repeating this cycle until it is fully connected. 
 
 ![circuitdigest.com](images/switchBouncing.png)
 
-Depending on your button you might see zero switch bouncing or extreme switch bouncing ranging from a few micro seconds to milliseconds. After testing the lab keypad I found that they had zero switch bouncing on any button as you can see from the oscilloscope below. However the systemVerilog still acounted for it. 
+Depending on your button you might see zero switch bouncing or extreme switch bouncing ranging from a few micro seconds to milliseconds. After testing the lab keypad I found that they had zero switch bouncing on any button as you can see from the oscilloscope below. However the systemVerilog still acounted for the possibility. 
 
 ![Oscilloscope of pressing a switch](images/noSwitchBouncing.png)
 
