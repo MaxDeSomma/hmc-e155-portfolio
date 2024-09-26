@@ -21,7 +21,7 @@ Time multiplexing is a way to share expensive hardware for different purposes us
 
 The systemVerilog code that was flashed onto the fpga followed the block diagram below. The top module `Lab 2` has inputs `s1 [3:0]` and `s2 [3:0]` which come from each of the quad dip switches. Those inputs then enter `ledSum` which is just an adder summing the two inputs into `sum [4:0]`. `s1` and `s2` also enter the `sevenSegment module` in addition to the `clk` signal which comes from the `HSOSC`. The `sevenSegment` module then alternates between turning on the left or right led segment using `led1` and `led2` outputs which are connected to the transistors as well as outputts the correct `seg [6:0]` output to light up specific segments on the display. `led1` and `led2` are toggled based on the 4.8 MHz `clk` signal which is modified to effectively act as a 240 Hz clock which flips `led1` and `led2` every cycle. 
 
-![](images/lab2BlockDiagram.png)
+![](images/lab2BlockDiagram1.png)
 
 ## Testing Approach
 To test the modules discussed above a testbench was used to run a device under test. This test bench was quite simple compared to the last lab and did not use test vectors but instead was used to monitor when `led1` and `led2` toggled on or off and if the correct `seg[6:0]` was outputted depedning on which segment was powered. The DUT ended up being the `segmentSwitcher` module. Initially I planned to test each module seperately however the `sevenSegment` module was tested last week and `ledSum` just summed two inputs, so I decided to test all of `segmentSwitcher`. The systemVerilog used is provided below.

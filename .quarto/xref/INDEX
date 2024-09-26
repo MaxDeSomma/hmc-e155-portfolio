@@ -19,5 +19,8 @@
   },
   "labs/lab3/lab3.qmd": {
     "lab3.html": "efdc4d01"
+  },
+  "posts/third-post.qmd": {
+    "third-post.html": "3225fa16"
   }
 }
