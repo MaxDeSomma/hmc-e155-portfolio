@@ -54,4 +54,4 @@ In E85 and in previous examples we had used the GPIO as standard output or input
 
 ![](images/alternateFunctions.png)
 
-As we can see the output from `TIM16_CH1` which is the PWM can be routed to pin `PA6` if its using alternate function 14. 
+As we can see the output from `TIM16_CH1` which is the PWM output in our case can be routed to pin `PA6` if its using alternate function 14. This involved
