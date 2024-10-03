@@ -18,7 +18,56 @@ The goal of the lab was to use the internal peripheral timers of the MCU to gene
 ### Headers
 The first piece designed in this lab were the headers for the specific modules used in the lab as we were not allowed to use any preexisting registers. The header files included were for the `RCC`, `GPIO`, `TIM6` and `TIM16` modules. 
 
-![](images/headerFile.png)
+```markdown
+// TIM16.h
+// Header for basic timer
+
+#ifndef TIM16_H
+#define TIM16_H
+
+#include <stdint.h>
+
+///////////////////////////////////////////////////////////////////////////////
+// Definitions
+///////////////////////////////////////////////////////////////////////////////
+
+#define __IO volatile
+
+// Base addresses
+#define TIM16_BASE (0x40014400) // base address of TIM16
+
+/**
+  * @brief Reset and Clock Control
+  */
+
+typedef struct
+{
+  __IO uint32_t TIM_CR1;     //< tim control register 1
+  __IO uint32_t TIM_CR2;     // tim control register 2
+  uint32_t      RESERVED0;    // Reserved,  
+  __IO uint32_t TIM_DIER;   // tim DMA/Interrupt enable register
+  __IO uint32_t TIM_SR;     // time status register
+  __IO uint32_t TIM_EGR;    // tim event generation register
+  __IO uint32_t TIM_CCMR1;    // tim capture/compare mode register
+  uint32_t      RESERVED1;    // Reserved,  
+  __IO uint32_t TIM_CCER;     // capture/compare mode register
+  __IO uint32_t TIM_CNT;     // tim counter
+  __IO uint32_t TIM_PSC;    // tim prescaler
+  __IO uint32_t TIM_ARR;    // time auto reload register
+  __IO uint32_t TIM_RCR;    // repetition counter register
+  __IO uint32_t TIM_CCR1;    // capture/compare register 1
+  uint32_t      RESERVED2;    // Reserved,
+  uint32_t      RESERVED3;    // Reserved,
+  uint32_t      RESERVED4;    // Reserved,
+  __IO uint32_t TIM_BDTR;    // tim  break and dead-time register 
+  __IO uint32_t TIM_DCR;    // DMA control register
+  __IO uint32_t TIM_DMAR;    // 6 DMA address for full transfer
+  __IO uint32_t TIM_OR1;    //  option register 1
+  uint32_t      RESERVED5;    // Reserved,
+  uint32_t      RESERVED6;    // Reserved,
+  uint32_t      RESERVED7;    // Reserved,
+  __IO uint32_t TIM_OR2;    //  option register 2
+  ```
 
 An example header above shows how the Timer 16 module is broken up into different registers starting at the base address of `tim16` making it easy to change a bit in a specific register. These headers could then be used in main to shift bits and call other related functions. 
 
@@ -54,4 +103,41 @@ In E85 and in previous examples we had used the GPIO as standard output or input
 
 ![](images/alternateFunctions.png)
 
-As we can see the output from `TIM16_CH1` which is the PWM output in our case can be routed to pin `PA6` if its using alternate function 14. This involved
+As we can see, the output from `TIM16_CH1` which is the PWM output in our case, can be routed to pin `PA6` if its using alternate function 14. This involved setting the GPIO alternate function low register so that pin 6 was set to AF14. 
+
+### Piecing it Together
+Once the two timers (delay and PWM) were created and the GPIO was initiated to output to its correct alternate function, the rest was simple. The main function of the c code iterated through an array of frequencies and delays. The code would then tell the MCU to change the frequency of the output PWM and delay it for the specific amount of time till it had to change to the next frequency.
+
+## Calculations
+The first calculation was to calibrate exactly what the MSI clock was running at. When the MSI (default at 4 MHz) was routed into `TIM16` it was prescaled by four meaning it should've have been at a rate of 1 MHz. To evaluate the true frequency of the MSI I used the following calculations. 
+
+![](images/calibration.png)
+
+I started with the `ARR` formula that calculated the specific auto reload register alue for a desired pitch of 496 Hz. When this `ARR` was used the oscilloscope showed that the actual pitch was around 488 Hz. Using this data the real speed of the scaled MSI coudl be calculated at 985.533 KHz. While it looks quite far from the expected its only around 1.5% off and the MCU clocks can have error in this range. After using the correct clock speed you can see below we get a much closer pitch of 495 Hz.
+
+![](images/495.png)
+
+The maximum and minimum duration and pitch then had to be calculated to make sure it could accurately play musical pieces. The calculates below show what the range of pitch and delays are.
+
+![](images/maxmin.png)
+
+For the duration timer I scaled down the clock by 10 to get an input clock of 98.453 Hz which leaves us with a rand of delays from 0.01 to 665 ms. In hindsight I did not need to scale down the clock this much as we don't need a delay that small. However it fit within the bounds of the songs we were trying to play. For the frequency the clock wasn't scaled down any further which left us with a range of 15 Hz to 984 kHz which goes below and above the range of human hearing makign it perfect for an audio output.
+
+
+
+## Wiring the Board
+The wiring for this lab was simple. The output PWM needed to be routed to a small speaker so that the signal could be heard. However the MCU does not have enough current output to drive a speaker. Due to this constrain a audio amplifier was used in the circuit below. 
+
+![](images/lab4Pinout.png)
+
+The LM348 was powered by the 5V voltage regulator on our PCB allowing it to reach a max of 5 V and have sufficient current. The amplifier did not use any negative feedback but instead just multiplied V+ by the amplifier's gain of 20. THis obviously railed out quickly as `PA6` outputted 3.3 V. To control the output voltage and do not annoy others's in the lab a 10 kOhm potentiometer was used to vary the input signal before it got amplified. For fun I also powered the audio amplifier with 12 V from a desktop powersupply and was able to greatly increase the volume. Students in the ECF claimed they could hear it accross the hall. 
+
+## Outcome
+From the two videos below you can see my MCU circuit succesffuly playing Für Elise as well the melody of Mo Bamba. Additionally volume support is evident through the use of the potentiometer. 
+
+{{< video https://youtu.be/nzIWJDGLoII >}}
+{{< video https://youtu.be/HTXu0B3hbG4 >}}
+
+While this lab was straightforward there were a lot of hiccups and slowdowns. A lot of this frustration came from the PWM as my code had to enable a lot of specific bits in the correct order and it turned out I was forgetting one important register. Additionally it was hard to debug this lab and know which register we might have been missing, as if 15/16 of the registers were correct but that last one was wrong there woudl be zero output. However I do feel a lot more comfortable using the STM32 reference manual and data sheet now.
+
+Time in lab: 19 Hours.
