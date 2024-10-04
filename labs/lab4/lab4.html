@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab 3: FPGA and MCU Setup and Testing – E155 Portfolio</title>
+<title>Lab 4: Digital Audio – E155 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -137,19 +171,27 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#lab-overview" id="toc-lab-overview" class="nav-link" data-scroll-target="#lab-overview">Lab Overview</a></li>
-  <li><a href="#design-the-fsm" id="toc-design-the-fsm" class="nav-link" data-scroll-target="#design-the-fsm">Design the FSM</a></li>
-  <li><a href="#testing-all-the-modules" id="toc-testing-all-the-modules" class="nav-link" data-scroll-target="#testing-all-the-modules">Testing all the Modules</a></li>
-  <li><a href="#wiring-up-the-board" id="toc-wiring-up-the-board" class="nav-link" data-scroll-target="#wiring-up-the-board">Wiring up the board</a></li>
+  <li><a href="#mcu-design" id="toc-mcu-design" class="nav-link" data-scroll-target="#mcu-design">MCU Design</a>
+  <ul class="collapse">
+  <li><a href="#headers" id="toc-headers" class="nav-link" data-scroll-target="#headers">Headers</a></li>
+  <li><a href="#clock-control" id="toc-clock-control" class="nav-link" data-scroll-target="#clock-control">Clock Control</a></li>
+  <li><a href="#timer-6-delay" id="toc-timer-6-delay" class="nav-link" data-scroll-target="#timer-6-delay">Timer 6 (delay)</a></li>
+  <li><a href="#timer-16-pwm" id="toc-timer-16-pwm" class="nav-link" data-scroll-target="#timer-16-pwm">Timer 16 (PWM)</a></li>
+  <li><a href="#gpio" id="toc-gpio" class="nav-link" data-scroll-target="#gpio">GPIO</a></li>
+  <li><a href="#piecing-it-together" id="toc-piecing-it-together" class="nav-link" data-scroll-target="#piecing-it-together">Piecing it Together</a></li>
+  </ul></li>
+  <li><a href="#calculations" id="toc-calculations" class="nav-link" data-scroll-target="#calculations">Calculations</a></li>
+  <li><a href="#wiring-the-board" id="toc-wiring-the-board" class="nav-link" data-scroll-target="#wiring-the-board">Wiring the Board</a></li>
   <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
   </ul>
-<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab3"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab4"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 3: FPGA and MCU Setup and Testing</h1>
+<h1 class="title">Lab 4: Digital Audio</h1>
 </div>
 
 
@@ -168,78 +210,128 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this lab we learn how to use the FPGA to scan inputs from a 4x4 keypad.</p>
+<p>In this lab we were tasked with using our STM32 MCU to play music.</p>
 </section>
 <section id="lab-overview" class="level2">
 <h2 class="anchored" data-anchor-id="lab-overview">Lab Overview</h2>
-<p>The goal of this lab was to use 16 button keypad to display the last two hexadecimal digitals pressed on the double seven segment display. This becomes more tricky than it sounds. This is because the FPGA must fight against switch bouncing and metastability. The keypad is just a series of rows and columns that are connected depending on which button is pressed. When pushed a connection is formed and there is a short between the specific row and column.</p>
-<p><img src="images/keypad.png" class="img-fluid"></p>
-<p>Switch bouncing displayed in the diagram below, is the phenomenon where signals from a switch can appear as if they are flipped on and off repeatedly in an extremely short time frame. This is due to the physical characteristic of buttons. When the two peices of metal come together to form a connection they make contact initially for a small amount of time and then seperate until connecting again, repeating this cycle until it is fully connected.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/switchBouncing.png" class="img-fluid figure-img"></p>
-<figcaption>circuitdigest.com</figcaption>
-</figure>
-</div>
-<p>Depending on your button you might see zero switch bouncing or extreme switch bouncing ranging from a few micro seconds to milliseconds. After testing the lab keypad I found that they had zero switch bouncing on any button as you can see from the oscilloscope below. However the systemVerilog still acounted for the possibility.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/noSwitchBouncing.png" class="img-fluid figure-img"></p>
-<figcaption>Oscilloscope of pressing a switch</figcaption>
-</figure>
-</div>
-<p>The other problem the keypad has is metastability. Metastability can happen with digital logic when physical inputs don’t line up with the clock cycles correctly and are incorrectly sampled before the signal is fully stable. To fix that synchronizers were used to make sure the signal was stable. This can be accomlished using multiple flip flops and only using the stable output.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/metastability.png" class="img-fluid figure-img"></p>
-<figcaption>nandland.com</figcaption>
-</figure>
-</div>
+<p>The goal of the lab was to use the internal peripheral timers of the MCU to generate square waves and toggle a GPIO pin at a specicific frequency. The GPIO pin was then hooked up to an audio circuit that magnified the signal and drove a small speaker. Additionally, the MCU was programmed to read a list of notes (Hz) and duration (ms) to play a score.</p>
 </section>
-<section id="design-the-fsm" class="level2">
-<h2 class="anchored" data-anchor-id="design-the-fsm">Design the FSM</h2>
-<p>To design this lab we had to implement an FSM to make sure that when a button held it is only registered as one valid press and you can’t press other buttons while its held. The following FSM was used.</p>
-<p><img src="images/fsm.png" class="img-fluid"></p>
-<p>For this lab I decided that the FGPA would output a signal to drive the rows high and the columns would be inputs to the FPGA to show when there is a vaild connection. However you can’t scan all four rows at the same time as then whenever a column recieved an input you wouldn’t be able to tell which button in the column it came from. To fix this the FSM scanned all the rows. Driving each one high seperately for one clock cycle each until the FPGA recieved a valid column signal. The FSM would then branch out holding that one row high to help determine which button is being pressed, and then it would enable the seven segment decoder to show a new number. Once the button is released it goes back to scanning.</p>
-<p>The systemVerilog code followed the following block diagram.</p>
-<p><img src="images/lab3BlockDiagram.png" class="img-fluid"></p>
-<p>In the top level module we defined the HSOSC and inputed that into the Master module. The master module then slowed down the <code>clk</code> and inverted the reset as the onboard switches use pull up resistors. The inputs <code>c</code> and <code>reset</code> then went into the synchronizer where we used two flip flops to make sure that <code>c</code> was stable as it entered the FSM. In the FSM <code>en</code>, <code>counter</code>, and <code>rowPressed</code> was generated which were used in the <code>buttonDecoder</code> and <code>ledController</code>. The FSM also determined which rows were powered by determining the logic for <code>r</code>. <code>buttonDecoder</code> took in <code>c</code> and <code>rowPressed</code> and then determined which four bit hexadecimal number it corresponded to outputting it as <code>s</code>. <code>s</code>,<code>en</code>, <code>counter</code>, <code>clk</code>, and <code>reset</code> was inputed into <code>ledController</code> which was built upon the last lab and was able to use time multiplexing to drive two seven segments displays outputting which seven segment should be based on <code>led1</code> and <code>led2</code> as well as the number <code>seg</code>. Additionally it used <code>counter</code> to create a digital low pass filter and make sure that if there was any switch bouncing it would not incorrectly affect the output.</p>
+<section id="mcu-design" class="level2">
+<h2 class="anchored" data-anchor-id="mcu-design">MCU Design</h2>
+<section id="headers" class="level3">
+<h3 class="anchored" data-anchor-id="headers">Headers</h3>
+<p>The first piece designed in this lab were the headers for the specific modules used in the lab as we were not allowed to use any preexisting headers. The header files included were for the <code>RCC</code>, <code>GPIO</code>, <code>TIM6</code> and <code>TIM16</code> modules.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>// TIM16.h</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>// Header for basic timer</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>#ifndef TIM16_H</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>#define TIM16_H</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>#include &lt;stdint.h&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>///////////////////////////////////////////////////////////////////////////////</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>// Definitions</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>///////////////////////////////////////////////////////////////////////////////</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>#define __IO volatile</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>// Base addresses</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>#define TIM16_BASE (0x40014400) // base address of TIM16</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>/**</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">  * </span>@brief Reset and Clock Control</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  */</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>typedef struct</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_CR1;     //&lt; tim control register 1</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_CR2;     // tim control register 2</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED0;    // Reserved,  </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_DIER;   // tim DMA/Interrupt enable register</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_SR;     // time status register</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_EGR;    // tim event generation register</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_CCMR1;    // tim capture/compare mode register</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED1;    // Reserved,  </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_CCER;     // capture/compare mode register</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_CNT;     // tim counter</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_PSC;    // tim prescaler</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_ARR;    // time auto reload register</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_RCR;    // repetition counter register</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_CCR1;    // capture/compare register 1</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED2;    // Reserved,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED3;    // Reserved,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED4;    // Reserved,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_BDTR;    // tim  break and dead-time register </span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_DCR;    // DMA control register</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_DMAR;    // 6 DMA address for full transfer</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_OR1;    //  option register 1</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED5;    // Reserved,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED6;    // Reserved,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  uint32_t      RESERVED7;    // Reserved,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  __IO uint32_t TIM_OR2;    //  option register 2</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>An example header above shows how the Timer 16 module is broken up into different registers starting at the base address of <code>TIM16</code> making it easy to change a bit in a specific register. These headers could then be used in main to shift bits and call other related functions.</p>
 </section>
-<section id="testing-all-the-modules" class="level2">
-<h2 class="anchored" data-anchor-id="testing-all-the-modules">Testing all the Modules</h2>
-<p>Due this labs complexity a lot more was tested in simulation before it was uploaded to the FPGA and wired up. The modules simulated were <code>buttonFSM</code>, <code>ledController</code>, and <code>buttonDecoder</code>. We first tested the <code>buttonDecoder</code> module. This involved making a simple testbench that gave it some example key presses to determine if it would output the correct 4-bit signal representing the hexadecimal pressed. From the wave below you can see that it outputs the correct signal based on the key pressed. You can also see that when two keys pressed together are simulated the ledDecoder goes to its default case statement of F however concerning the FSM should prevent two keys from being pressed simultaneously.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/decoderTB.png" class="img-fluid figure-img"></p>
-<figcaption>ledDecoder Test Bench</figcaption>
-</figure>
-</div>
-<p>The next module tested was <code>ledController</code>. The idea behind ledController is similar to last lab where it drives a double seven segment display. However we also wanted it to shift the numbers over as a new one was pressed, shifting everything left and adding the new onw on the right if it had the proper enable from the FSM. From the wave output below it shows that <code>s1</code> and <code>s2</code> the two hexidecimal numbers for the two led displays only change when <code>en</code> is high and shift properly, with <code>s1</code> getting <code>s</code> and <code>s2</code> getting <code>s1</code> in a flip flop. Additionally <code>ledController</code> switched which seven segment was on at the right speed and outputted the corresponding seven bit <code>seg</code> number to turn on certain diodes.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/controllerTB.png" class="img-fluid figure-img"></p>
-<figcaption>ledController Test Bench</figcaption>
-</figure>
-</div>
-<p>The final module tested was the FSM. For the testbench of the FSM, it was simply initialized as the device under test and then reset. On the wave we can see that after it is reset it properly scans through all the rows powering them high. Then we can input a single column pretending as if there is a real time input. This results in a specific row staying high until the FSM move into the next state where all the rows are high so we don’t see any of the errors mentioned in my blog, until the button is released. However we have the <code>rowPressed</code> variable at the bottom that keep track of which row was pressed initially so that the <code>ledDecoder</code> works properly. It then returns to scanning again. Near the end of the wave an input of <code>1000</code> half a clock cycle later the input changes to <code>1100</code> simulating someone pressing another button. The module however does not change the <code>colPressed</code> and will output the correct hexadecimal number</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/fsmTB.png" class="img-fluid figure-img"></p>
-<figcaption>FSM Test Bench</figcaption>
-</figure>
-</div>
+<section id="clock-control" class="level3">
+<h3 class="anchored" data-anchor-id="clock-control">Clock Control</h3>
+<p>Below is the clock tree of the entire MCU. The first step is sending the system clock signal to all peripherals as they are powered off on reset to save power.</p>
+<p><img src="images/clockTree.png" class="img-fluid"></p>
+<p>For this lab I used the default <code>MSI</code> 4 MHz clock as the system clock and enabled the <code>GPIO</code>, <code>TIM6</code>, and <code>TIM16</code>. Additionally before entering timer 6 and timer 16 a prescaler was used to divide the system clock to a 1 MHz signal. Enabling the peripherals and scaling down the clock involved setting the correct registers of the <code>RCC</code> module (reset &amp; clock control) which can be seen at the top of main.</p>
 </section>
-<section id="wiring-up-the-board" class="level2">
-<h2 class="anchored" data-anchor-id="wiring-up-the-board">Wiring up the board</h2>
-<p>After making sure the simulated modules worked correctly they were uploaded to radiant and the board was wired to the following specification below.</p>
-<p><img src="images/pins.png" class="img-fluid"></p>
-<p>The FGPA pins were then connected to the correct outputs and inputs in radiant, the video below shows a working lab3 where the the button pressed on the keypad show up on the dual seven segment display. 100kOhm resistors were used on the columns of the keypad to act as pulldown resistors showing a valid low signal when nothing was pressed. The resistors for the diode and dual seven segment display were kept the same from last lab.</p>
+<section id="timer-6-delay" class="level3">
+<h3 class="anchored" data-anchor-id="timer-6-delay">Timer 6 (delay)</h3>
+<p>Timer 6 or <code>TIM6</code> which is a basic clock, was used to create a accurate delay in milliseconds that would be used to hold notes for a certain amount of time. You can see how it recieves its internal clock from RCC.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/timer6BlockDiagram.png" class="img-fluid figure-img"></p>
+<figcaption>TIM6 Block Diagram</figcaption>
+</figure>
+</div>
+<p>A function called <code>setUpTIM6</code> was used where timer 6’s inputed clock was scaled down by a factor of 10 leaving it around 100 kHz. It was then updated and its counter was enabled to start counting up at a rate of around 100 kHz.</p>
+<p>For the delay <code>delayTIM6(int ms)</code> was used. In this function the timer’s auto reload bits were set. Auto reload is a feature that resets the timer’s counter back to zero and raises a status register count matches the <code>ARR</code> register. This allows us to contorl the delay as the auto reload register was set depending on the input <code>ms</code>. The program would then wait till the status register flag was raised before continuing on with any other code. Finally it reset the status register back to zero for the next delay.</p>
+</section>
+<section id="timer-16-pwm" class="level3">
+<h3 class="anchored" data-anchor-id="timer-16-pwm">Timer 16 (PWM)</h3>
+<p>Timer 16 or <code>TIM16</code> is a general purpose timer that has more features than timer 6. It was used to create a PWM signal that was then routed to a GPIO pin. Similarly it recieves its internal clock from RCC.</p>
+<p><img src="images/timer16BlockDiagram.png" class="img-fluid"></p>
+<p>The <code>setUpPWM(int frequency, int dutyCycle)</code> was used to enable the timer and have it output a signal at the correct frequency and duty cycle. For PWM the auto reload register and capture/compare register must be set. This is because the output is low when <code>ARR</code> (auto reload register) &lt; <code>CCR1</code> (capture/compare register) and high when <code>ARR &gt; CCR1</code>. <code>ARR</code> was set based on the timers clock input as well as the function inputs <code>frequency</code> and <code>CCR1</code> was set to a fraction of <code>ARR</code> depeding on what <code>dutyCycle</code> was inputed as.</p>
+<p>From there the auto preload reload, capture/compare, PWM mode, main output, and preload register are enabled in addition to setting the capture/compare channel as an output. Lastly everything was updated and then the counter was enabled for timer 16 to begin counting up.</p>
+<p>To change the frequency or duty cycle <code>changeFreq(int frequency, int dutyCycle)</code> was used. This function then set <code>ARR</code> and <code>CCR1</code> according to the specified frequency and duty cycle and updated timer 16.</p>
+</section>
+<section id="gpio" class="level3">
+<h3 class="anchored" data-anchor-id="gpio">GPIO</h3>
+<p>In E85 we had used GPIO as standard output or input, either reading in low and high signals or outputting low and high signals. But now we want to connect it the output of our timer 16. To do this GPIO alternate function was used. Inside the STM 32 every pin has alternate functions which you can find in the data sheet like the example below.</p>
+<p><img src="images/alternateFunctions.png" class="img-fluid"></p>
+<p>As we can see, the output from <code>TIM16_CH1</code> which is the PWM output in our case, can be routed to pin <code>PA6</code> if its using alternate function 14. This involved setting the GPIO alternate function low register so that pin 6 was set to AF14.</p>
+</section>
+<section id="piecing-it-together" class="level3">
+<h3 class="anchored" data-anchor-id="piecing-it-together">Piecing it Together</h3>
+<p>Once the two timers (delay and PWM) were created and the GPIO was initiated to output to its correct alternate function, the rest was simple. The main function of the c code iterated through an array of frequencies and delays. The code would then tell the MCU to change the frequency of the output PWM and delay it for the specific amount of time till it had to change to the next frequency.</p>
+</section>
+</section>
+<section id="calculations" class="level2">
+<h2 class="anchored" data-anchor-id="calculations">Calculations</h2>
+<p>The first calculation was to calibrate exactly what the MSI clock was running at. When the MSI (default at 4 MHz) was routed into <code>TIM16</code> it was prescaled by four meaning it should’ve have been at a rate of 1 MHz. To evaluate the true frequency of the MSI the following calculations were used.</p>
+<p><img src="images/calibration.png" class="img-fluid"></p>
+<p>I started with the <code>ARR</code> formula that calculated the specific auto reload register value for a desired pitch of 496 Hz. When this <code>ARR</code> was used the oscilloscope showed that the actual pitch was around 488 Hz. Using this data the real speed of the scaled MSI could be calculated at 985.533 KHz. While it looks quite far from the expected its only around 1.5% off and the MCU clocks can have error in this range. After using the correct clock speed you can see below we get a much closer pitch of 495 Hz (within 1%).</p>
+<p><img src="images/495.png" class="img-fluid"></p>
+<p>The maximum and minimum duration and pitch then had to be calculated to make sure it could accurately play musical pieces. The calculations below show what the range of pitch and delays are.</p>
+<p><img src="images/maxmin.png" class="img-fluid"></p>
+<p>For the duration timer I scaled down the clock by 10 to get an input clock of 98.453 Hz which leaves us with a range of delays from 0.01 to 665 ms. In hindsight I did not need to scale down the clock this much as we don’t need a delay that small, however it fit within the bounds of the songs we were trying to play. For the frequency the clock wasn’t scaled down any further which left us with a range of 15 Hz to 984 kHz which goes below and above the range of human hearing making it perfect for an audio output.</p>
+</section>
+<section id="wiring-the-board" class="level2">
+<h2 class="anchored" data-anchor-id="wiring-the-board">Wiring the Board</h2>
+<p>The wiring for this lab was simple. The output PWM needed to be routed to a small speaker so that the signal could be heard. However the MCU does not have enough current output to drive a speaker. Due to this constraint an audio amplifier was used in the circuit below.</p>
+<p><img src="images/lab4Pinout.png" class="img-fluid"></p>
+<p>The LM348 was powered by the 5V voltage regulator on our PCB allowing the output to reach a max of 5 V and have sufficient current. The amplifier did not use any negative feedback but instead just multiplied V+ by the amplifier’s gain of 20. This obviously railed out quickly as <code>PA6</code> outputted 3.3 V. To control the output voltage and to not annoy others’s in the lab a 10 kOhm potentiometer was used to vary the input signal before it got amplified acting as a volume knob. For fun I also powered the audio amplifier with 12 V from a desktop powersupply and was able to greatly increase the volume. Students in the ECF claimed they could hear it accross the hall.</p>
 </section>
 <section id="outcome" class="level2">
 <h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
-<p>This lab turned out to be a success. However this lab writeup makes it seem easier than it was. There were dozens of small bugs and features that did not work initially and had to be reformed and changed. It was quite frustrating however I learn how to use the oscilloscope and simulation to my benefit. In the end the keypad was able to communicate user input to the FPGA shifting the dual seven segment display to the correct number on the right side. Additionally the synchronizers were used to get rid of metastable inputs, the FSM countered any switch bouncing from the keypad, and it properly dealt with multiple key presses at once.</p>
-<p><video src="images/working.mov" class="img-fluid" controls=""><a href="images/working.mov">Video</a></video></p>
-<p>Time in lab: 23 Hours.</p>
+<p>From the two videos below you can see my MCU circuit succesffuly playing Für Elise as well the melody of Mo Bamba. Additionally volume support is evident through the use of the potentiometer.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/nzIWJDGLoII" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/HTXu0B3hbG4" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>While this lab was straightforward there were a lot of hiccups and slowdowns. A lot of this frustration came from the PWM as my code had to enable a lot of specific bits in the correct order and it turned out I was forgetting one important bit. Additionally it was hard to debug this lab and know which register we might have been missing, as if 15/16 of the registers were correct but that last one was wrong there would be zero output. However I do feel a lot more comfortable using the STM32 reference manual and data sheet now.</p>
+<p>Time in lab: 19 Hours.</p>
 
 
 </section>
