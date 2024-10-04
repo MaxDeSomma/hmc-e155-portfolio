@@ -1,0 +1,22 @@
+---
+title: "Printed Circuit Boards"
+description: "A brief history"
+author: "Max De Somma"
+date: "10/4/24"
+categories:
+  - reflection
+draft: false
+---
+This week Professor Brake was out of town so the class taught themselves how to design PCB's using KiCad. I had onyl ever used PCB's but had never realized how they were designed or manufactured. This made me interested in learning about some of the history of PCB's and where they came from. 
+
+In the early 1900's PCB had not yet been invested and were built by manually winding copper around metal conductors. This meant building a circuit was a labor intesive, error full, and unreliable ordeal. In 1925 Charles Ducas created a patent of the earliest precursor to a PCB. He had created a way of making electrical paths on an insulated surface using conductice ink, literally "printed."
+
+![Ducas Patent](images/Charles-Ducas-patent-drawing.jpg)
+s
+Then in 36' Paul Eisler had a huge breakthroughs in the UK. He had developed a way to print electrical circutis on a non doncutive base using copper foil. This gained huge popularity giving him the honor of being credited with inventing the modern PCB. Additionally the idea was accelerated during World War II finding great use in radios and military equipment. After WWII people realized how efficient PCB's were and began using them in consumer products. Products continued to imrpove in the 60's as SMT or surface mount technology were invented. 
+
+![You can see SMT on C9 vs the THT on C5](images/smt.jpg)
+
+This allowed chip components to be mounted on the surface instead of in through holes saving a lot of space allowing for a more complicated chip in a small area. From the 80's onwards PCB's were used in almost all electronic devices. However PCB development has not stagnated now a days Computer-Aided Design has allowed anyone to be able to design and create their own custom PCB like we did in class. More surprising is how fast and cheap it is for anyone to be able to pickup this skill and get their own PCB in their hands in a few days. I hope to get to use mine in Lab 6. 
+
+

@@ -25,5 +25,14 @@
   },
   "labs/lab4/lab4.qmd": {
     "lab4.html": "18a47fa6"
+  },
+  "posts/fourth-post.qmd": {
+    "fourth-post.html": "7dd1da9d"
+  },
+  "posts/fifth-post.qmd": {
+    "fifth-post.html": "fe041944"
+  },
+  "posts/fourth-post copy.qmd": {
+    "fourth-post copy.html": "2798724f"
   }
 }
