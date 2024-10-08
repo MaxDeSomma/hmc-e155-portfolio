@@ -1,0 +1,11 @@
+---
+title: 'Lab 4: Digital Audio'
+format:
+  html: 
+    code-links:
+      - text: "Lab Repository"
+        href: https://github.com/MaxDeSomma/e155-lab4
+        icon: github
+---
+
+## Introduction
