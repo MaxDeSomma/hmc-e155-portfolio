@@ -9,3 +9,15 @@ format:
 ---
 
 ## Introduction
+In this lab we were taskued with using our stm32 MCU to determine the speed of a motor by reading from a quadrature encoder.
+
+## Lab Overview
+The goal of this lab was to use interupts to to interface with the quadrature encoder and calculate the speed of a motor. The interupts needed to be triggered on the edges of the encoder pulses so that we could accurately find the duration between pulses. Lastly our design needed to display the speed and direction of the motor to the user at a rate of at least 1 Hz.
+
+## What is a quadrature encoder 
+An encoder is a device that converts a set of inputs into a binary code output perfect for our case. A quarature encoder is an encoder that is used to measure the angle of a motor. It can be designed a few ways. The ones in lab used a hall effect sensors seen in the image below.
+
+![UC Berkeley IEEE](images/quadrature_encoder.gif)
+
+As the motor spins the hall effect sensors will output a square wave. The two sensors are seperated by 90 degrees meaning the two respective square waves are 90 degrees out of phase. We can then use this to find the period between the rising or fallign edges and use that to calculate the speed of the motor.
+
