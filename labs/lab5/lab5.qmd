@@ -1,10 +1,10 @@
 ---
-title: 'Lab 4: Digital Audio'
+title: 'Lab 5:  Interrupts'
 format:
   html: 
     code-links:
       - text: "Lab Repository"
-        href: https://github.com/MaxDeSomma/e155-lab4
+        href: https://github.com/MaxDeSomma/e155-lab5
         icon: github
 ---
 
@@ -20,4 +20,24 @@ An encoder is a device that converts a set of inputs into a binary code output p
 ![UC Berkeley IEEE](images/quadrature_encoder.gif)
 
 As the motor spins the hall effect sensors will output a square wave. The two sensors are seperated by 90 degrees meaning the two respective square waves are 90 degrees out of phase. We can then use this to find the period between the rising or fallign edges and use that to calculate the speed of the motor.
+
+## MCU Design
+### Setup
+In this lab we were allowed to use the CMSIS library meaning we no longer had to design structs for each register used in this lab. However we still need to need to make our own register specific functions which we can pull from our growing library we started last lab. 
+
+In this lab we needed to continually check if the two signals from the encoder were rising or falling. One way to do that would be to use polling. Basically in our main loop we could have manually checked if the GPIO pin connected to the encoder output have changed. However there is a large issue with polling which is that the all the logic in the while loop takes time to evaluate meanign that when you check for GPIO you could miss the signal if the other part of your main loop is still running. We need a way to immediately raise a flag if our the input changes. Luckily this is where interupts come in. Interupts are a way to tell the MCU to give immediate attention if a signal is changed. We can input our encoder signal and then whenever the signal has a risign or fallign edge the MCU will immediately run a service routine that executes some small but crucial code.
+
+The first part of the MCU design was to enable the GPIO pins that will read in the quadrature encoder. In this lab `PA6` and `PA8` were used. I was originally going to use `PA5` and `PA6` however the encoder outputs 5 V signals and `PA5` is only rated for 3.3 V read signals. These pins were then set enabled and set as input. Afterwards two timers were initiated. `TIM2` was used as a delay timer that counted at a frequency of 1 kHz (period of 1ms) and `TIM6` was used as timer to measure the time before signals. Given that it was measuring relatively quick signals I wanted to the frequency to be much faster so it was prescaled to 1 MHz (period of 1 us). 
+
+The interupts were then enabled using RCC and setting the configuration and mask register so that `PA6` and `PA8` would trigger an interupt. The interupts were then set to trigger on both the falling and rising edge of the signal. Lastly the Nested Vectored Interrupt Controller was configured to allow the CPU to respond to interup lines 9 through 5 including 6 and 8 which correspond to our pins. 
+
+The specific service routine under the function prototype `void EXTI9_5_IRQHandler(void);` could then be configured to whatever logic we wanted to apply in the interupt. 
+
+### Interupt Design
+Once an the interupt is triggered and service routine funciton is called the first thing to do is check which pending register was enabled as this tells the code if the signal came from `PA6` or `PA8`. If both `PA6` and `PA8` are at the different values `TIM6` is reset back to a count of zero and then when `PA6` and `PA8` are at the same value either high or low the current count of `TIM6` is saved to a global variable called `delta`. 
+### Loop Design
+
+## Calculations
+
+## Performance
 
