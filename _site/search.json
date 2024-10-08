@@ -236,5 +236,61 @@
     "title": "System on a Chip",
     "section": "",
     "text": "System-on-a-chip (SoC) is an integrated circuit that combines all the essential components of a computer on a singlular chip. SoCs have been popular in the mobile industry as you could combine the CPU, GPU, memory and other components on one chip leading to better power efficiency and space savings. This resulted in the boom of lighter, smaller, and longer lasting phones. Recently system on a chip design have begun to invade the computer market for the same benefits.\n\nApple had made a huge surge in SoC computers with their M1, M2, M3, and now M4 procesors. These chips were extremely succesful rocking the laptop market with extremely thin, light, and powerful laptops that boast better battery life as well. Window based computers have recently tried to jump on this train with ARM based SoC designs. While the computers have had impressive performance reviews a lot of windows apps have not been ported from the x86 architecture that AMD and Intel use to the newer ARM architecture. The lack of porting has led to new Windows devices not being fully capable of efficiently running some apps, leading to increased performance in some and slower speeds in other. I believe that this it is just a factor of time before SoC becomes dominant for mobile computer devices and I am interested to see what happens next."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html",
+    "href": "labs/lab5/lab5.html",
+    "title": "Lab 5: Interrupts",
+    "section": "",
+    "text": "In this lab we were taskued with using our stm32 MCU to determine the speed of a motor by reading from a quadrature encoder."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html#introduction",
+    "href": "labs/lab5/lab5.html#introduction",
+    "title": "Lab 5: Interrupts",
+    "section": "",
+    "text": "In this lab we were taskued with using our stm32 MCU to determine the speed of a motor by reading from a quadrature encoder."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html#lab-overview",
+    "href": "labs/lab5/lab5.html#lab-overview",
+    "title": "Lab 5: Interrupts",
+    "section": "Lab Overview",
+    "text": "Lab Overview\nThe goal of this lab was to use interupts to to interface with the quadrature encoder and calculate the speed of a motor. The interupts needed to be triggered on the edges of the encoder pulses so that we could accurately find the duration between pulses. Lastly our design needed to display the speed and direction of the motor to the user at a rate of at least 1 Hz."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html#what-is-a-quadrature-encoder",
+    "href": "labs/lab5/lab5.html#what-is-a-quadrature-encoder",
+    "title": "Lab 5: Interrupts",
+    "section": "What is a quadrature encoder",
+    "text": "What is a quadrature encoder\nAn encoder is a device that converts a set of inputs into a binary code output perfect for our case. A quarature encoder is an encoder that is used to measure the angle of a motor. It can be designed a few ways. The ones in lab used a hall effect sensors seen in the image below.\n\n\n\nUC Berkeley IEEE\n\n\nAs the motor spins the hall effect sensors will output a square wave. The two sensors are seperated by 90 degrees meaning the two respective square waves are 90 degrees out of phase. We can then use this to find the period between the rising or fallign edges and use that to calculate the speed of the motor."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html#mcu-design",
+    "href": "labs/lab5/lab5.html#mcu-design",
+    "title": "Lab 5: Interrupts",
+    "section": "MCU Design",
+    "text": "MCU Design\n\nSetup\nIn this lab we were allowed to use the CMSIS library meaning we no longer had to design structs for each register used in this lab. However we still need to need to make our own register specific functions which we can pull from our growing library we started last lab.\nIn this lab we needed to continually check if the two signals from the encoder were rising or falling. One way to do that would be to use polling. Basically in our main loop we could have manually checked if the GPIO pin connected to the encoder output have changed. However there is a large issue with polling which is that the all the logic in the while loop takes time to evaluate meanign that when you check for GPIO you could miss the signal if the other part of your main loop is still running. We need a way to immediately raise a flag if our the input changes. Luckily this is where interupts come in. Interupts are a way to tell the MCU to give immediate attention if a signal is changed. We can input our encoder signal and then whenever the signal has a risign or fallign edge the MCU will immediately run a service routine that executes some small but crucial code.\nThe first part of the MCU design was to enable the GPIO pins that will read in the quadrature encoder. In this lab PA6 and PA8 were used. I was originally going to use PA5 and PA6 however the encoder outputs 5 V signals and PA5 is only rated for 3.3 V read signals. These pins were then set enabled and set as input. Afterwards two timers were initiated. TIM2 was used as a delay timer that counted at a frequency of 1 kHz (period of 1ms) and TIM6 was used as timer to measure the time before signals. Given that it was measuring relatively quick signals I wanted to the frequency to be much faster so it was prescaled to 1 MHz (period of 1 us).\nThe interupts were then enabled using RCC and setting the configuration and mask register so that PA6 and PA8 would trigger an interupt. The interupts were then set to trigger on both the falling and rising edge of the signal. Lastly the Nested Vectored Interrupt Controller was configured to allow the CPU to respond to interup lines 9 through 5 including 6 and 8 which correspond to our pins.\nThe specific service routine under the function prototype void EXTI9_5_IRQHandler(void); could then be configured to whatever logic we wanted to apply in the interupt.\n\n\nInterupt Design\nOnce an the interupt is triggered and service routine funciton is called the first thing to do is check which pending register was enabled as this tells the code if the signal came from PA6 or PA8. If both PA6 and PA8 are at the different values TIM6 is reset back to a count of zero and then when PA6 and PA8 are at the same value either high or low the current count of TIM6 is saved to a global variable called delta. ### Loop Design The most important functin in the main loop is calculating the speed of the motor. The speed is calculated in terms of revolutions per second based on the time between edges we recieve in the interrupts. The main loop is also in charge of printing the speed using printf() and causing a delay of around 250 ms so that we don’t printf too rapidly. Lastly we check the time between edges and if there is too much seperation we assume the motor is off and set the speed to zero."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html#performance",
+    "href": "labs/lab5/lab5.html#performance",
+    "title": "Lab 5: Interrupts",
+    "section": "Performance",
+    "text": "Performance\nTo verify the design for this lab we can compare the what our calculated revolutions per second to the oscilloscope readings. One thing I noticed when measuring with the oscilloscope was that the frequency varied a lot. Below are some images of the oscilloscope measuring the same 5 V driven motor.\n\n\n\n505 Hz\n\n\n\n\n\n472 Hz\n\n\n\n\n\n444 Hz\n\n\nFrom these images you can see that the frequency jumps around a little bit meaning the motor does not stay at one contant speed.\nI ended up measuring the time between pulses on the scope below and found a quarter period of 460 us.\n\nUsing 460 us we found that the motor is spinning at a rate of 4.529 rev/s. When our MCU code rad the program on the same 5 V motor our speed fluxuated similar to the oscilloscope frequency readings but stayed around 4.46 rev/s. I has happy with the small error and believe some of that could be due to the fact that the motor is not always spinning at the same frequency."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html#calculations",
+    "href": "labs/lab5/lab5.html#calculations",
+    "title": "Lab 5: Interrupts",
+    "section": "Calculations",
+    "text": "Calculations\nThe main calculation in this lab was using delta which is the timer count corresponding to a quarter wave period to a motor speed. We know we want revolutions per second \\(\\frac{r}{s}\\). From the data sheet we know there is 120 pulses per rotation \\(120 \\frac{p}{r}\\). Therefore we can use \\(\\frac{r}{p}*\\frac{p}{s} = \\frac{r}{s}\\). To find \\(\\frac{p}{s}\\) first thing we can do is take the quarter wave count and multiply it by \\(4\\) to ge the full wave count and then divide it by \\(1,000,000\\), which is our clock frequency, to get the period of a full pulse wave in seconds \\(\\frac{s}{p} = \\frac{4\\Delta}{1000000}\\). We then know \\(\\frac{r}{s} = \\frac{1000000}{4\\Delta} * \\frac{1}{120} =  \\frac{1000000}{480\\Delta}\\). We can use this equation in our main while loop to calulate the revolutions per second."
+  },
+  {
+    "objectID": "labs/lab5/lab5.html#outcome",
+    "href": "labs/lab5/lab5.html#outcome",
+    "title": "Lab 5: Interrupts",
+    "section": "Outcome",
+    "text": "Outcome"
   }
 ]
