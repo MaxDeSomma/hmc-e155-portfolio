@@ -35,7 +35,9 @@ The interrupts were then enabled using RCC and setting the configuration and mas
 The specific service routine under the function prototype `void EXTI9_5_IRQHandler(void);` could then be configured to whatever logic we wanted to apply in the interrupt. 
 
 ### Interrupt Design
-Once an the interrupt is triggered and service routine funciton is called the first thing to do is check which pending register was enabled as this tells the code if the signal came from `PA6` or `PA8`. If both `PA6` and `PA8` are at the different values `TIM6` is reset back to a count of zero and then when `PA6` and `PA8` are at the same value either high or low the current count of `TIM6` is saved to a global variable called `delta`. 
+Once an the interrupt is triggered and service routine funciton is called the first thing to do is check which pending register was enabled as this tells the code if the signal came from `PA6` or `PA8`. If both `PA6` and `PA8` are at the different values `TIM6` is reset back to a count of zero and then when `PA6` and `PA8` are at the same value either high or low the current count of `TIM6` is saved to a global variable called `delta`. The flow chart is included below.
+
+![](images/lab5FlowChart.png)
 
 ### Loop Design
 The most important function in the main loop is calculating the speed of the motor. The speed is calculated in terms of revolutions per second based on the time between edges we recieve in the interrupts. The main loop is also in charge of printing the speed using `printf()` and causing a delay of around 250 ms so that we don't printf too rapidly. Lastly we check the time between edges and if there is too much seperation we assume the motor is off and set the speed to zero.
