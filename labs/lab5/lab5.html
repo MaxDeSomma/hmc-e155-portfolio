@@ -236,7 +236,8 @@ window.Quarto = {
 </section>
 <section id="interrupt-design" class="level3">
 <h3 class="anchored" data-anchor-id="interrupt-design">Interrupt Design</h3>
-<p>Once an the interrupt is triggered and service routine funciton is called the first thing to do is check which pending register was enabled as this tells the code if the signal came from <code>PA6</code> or <code>PA8</code>. If both <code>PA6</code> and <code>PA8</code> are at the different values <code>TIM6</code> is reset back to a count of zero and then when <code>PA6</code> and <code>PA8</code> are at the same value either high or low the current count of <code>TIM6</code> is saved to a global variable called <code>delta</code>.</p>
+<p>Once an the interrupt is triggered and service routine funciton is called the first thing to do is check which pending register was enabled as this tells the code if the signal came from <code>PA6</code> or <code>PA8</code>. If both <code>PA6</code> and <code>PA8</code> are at the different values <code>TIM6</code> is reset back to a count of zero and then when <code>PA6</code> and <code>PA8</code> are at the same value either high or low the current count of <code>TIM6</code> is saved to a global variable called <code>delta</code>. The flow chart is included below.</p>
+<p><img src="images/lab5FlowChart.png" class="img-fluid"></p>
 </section>
 <section id="loop-design" class="level3">
 <h3 class="anchored" data-anchor-id="loop-design">Loop Design</h3>
