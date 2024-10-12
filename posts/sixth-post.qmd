@@ -1,0 +1,27 @@
+---
+title: "Ideating a final project"
+description: "What could it be?"
+author: "Max De Somma"
+date: "10/11/24"
+categories:
+  - reflection
+draft: false
+---
+This week we started discussing the final project in our Micro Processing deign course. In this course after you complete the first seven labs you have to design and build a half semester long project that uses both the FPGA and MCU. Here are a few of the projects we were thinking about:
+
+The first project we thought of was a 2D ball balancing robot similar to the one below.
+
+![](images/ballBalancer.jpg)
+
+It would use stepper motors and PID control to adjust the table. A resistive touch screen would be able to tell the system where the ball was so the table could react to it accordingly.
+We were really excited about this project but quickly realized that it would involve a big mechanical focus. We decided we wanted to focus on the embedded systems approach and scrapped this idea.
+
+The next project we considered was making a rubiks cube solver. Similar to those videos online where a machine takes a scrambled rubiks cube and solves it in just a few seconds.
+
+![](images/rubiks.gif)
+
+This idea would involve analyzing the current state of the cube and using stepper motors to rotate the cube.
+The one issue with this idea is that we would need a way to see what the colors on the side of the rubiks cube are so that our program could know what moves to maker and rotate the cube until it was solved. This application of computer vision seemed out fo the scope of this class and not feasible.
+
+We then pivoted to our third idea...CHESS!!! It was perfect. We could have a smart chess board that kept track of where every chess piece was using hall effect sensors. From there whenever a piece is picked up the leds under the board would will notify the user where they are allow to move their piece.
+Additional ideas include telling users optimal moves and having sound effects when taking opponents. We are thinking we could have the MCU keep track of every piece on the 8x8 board and the FPGA will communicate with it to light up the chess squares. I hope to started on this as soon as possible.
