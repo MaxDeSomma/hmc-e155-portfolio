@@ -1,51 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/third-post.html</loc>
-    <lastmod>2024-09-26T18:21:55.901Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/fourth-post copy.html</loc>
-    <lastmod>2024-10-08T17:04:16.526Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/fifth-post.html</loc>
-    <lastmod>2024-10-08T17:04:16.522Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab4/lab4.html</loc>
-    <lastmod>2024-10-08T17:53:28.211Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab2/lab2.html</loc>
-    <lastmod>2024-09-26T18:21:55.873Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/index.html</loc>
-    <lastmod>2024-09-05T17:37:20.489Z</lastmod>
-  </url>
-  <url>
     <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/blog.html</loc>
-    <lastmod>2024-09-03T22:27:40.964Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab1/lab1.html</loc>
-    <lastmod>2024-09-12T19:27:36.396Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab3/lab3.html</loc>
-    <lastmod>2024-09-26T18:22:25.810Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab5/lab5.html</loc>
-    <lastmod>2024-10-10T22:43:56.786Z</lastmod>
-  </url>
-  <url>
-    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/first-post.html</loc>
-    <lastmod>2024-09-05T17:34:25.155Z</lastmod>
+    <lastmod>2024-10-12T01:10:10.277Z</lastmod>
   </url>
   <url>
     <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/second-post.html</loc>
-    <lastmod>2024-09-14T03:05:07.553Z</lastmod>
+    <lastmod>2024-10-12T01:10:10.315Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/third-post.html</loc>
+    <lastmod>2024-10-12T01:10:10.315Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/sixth-post.html</loc>
+    <lastmod>2024-10-12T01:59:08.147Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab4/lab4.html</loc>
+    <lastmod>2024-10-12T01:10:10.312Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab2/lab2.html</loc>
+    <lastmod>2024-10-12T01:10:10.301Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab1/lab1.html</loc>
+    <lastmod>2024-10-12T01:10:10.287Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab5/lab5.html</loc>
+    <lastmod>2024-10-12T01:10:10.313Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/labs/lab3/lab3.html</loc>
+    <lastmod>2024-10-12T01:10:10.309Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/fourth-post copy.html</loc>
+    <lastmod>2024-10-12T01:10:10.314Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/fifth-post.html</loc>
+    <lastmod>2024-10-12T01:10:10.313Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/posts/first-post.html</loc>
+    <lastmod>2024-10-12T01:10:10.313Z</lastmod>
+  </url>
+  <url>
+    <loc>https://MaxDeSomma.github.io/hmc-e155-portfolio/index.html</loc>
+    <lastmod>2024-10-12T01:10:10.277Z</lastmod>
   </url>
 </urlset>

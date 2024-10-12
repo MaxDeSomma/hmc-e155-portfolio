@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Max De Somma">
-<meta name="dcterms.date" content="2024-10-04">
-<meta name="description" content="A brief history">
+<meta name="dcterms.date" content="2024-10-11">
+<meta name="description" content="What could it be?">
 
-<title>Printed Circuit Boards – E155 Portfolio</title>
+<title>Ideating a final project – E155 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -145,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Printed Circuit Boards</h1>
+<h1 class="title">Ideating a final project</h1>
   <div class="quarto-categories">
     <div class="quarto-category">reflection</div>
   </div>
@@ -153,7 +153,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    A brief history
+    What could it be?
   </div>
 </div>
 
@@ -170,7 +170,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 4, 2024</p>
+      <p class="date">October 11, 2024</p>
     </div>
   </div>
   
@@ -182,16 +182,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This week Professor Brake was out of town so the class taught themselves how to design PCB’s using KiCad. I had onyl ever used PCB’s but had never realized how they were designed or manufactured. This made me interested in learning about some of the history of PCB’s and where they came from.</p>
-<p>In the early 1900’s PCB had not yet been invested and were built by manually winding copper around metal conductors. This meant building a circuit was a labor intesive, error full, and unreliable ordeal. In 1925 Charles Ducas created a patent of the earliest precursor to a PCB. He had created a way of making electrical paths on an insulated surface using conductice ink, literally “printed.”</p>
-<p><img src="images/Charles-Ducas-patent-drawing.jpg" class="img-fluid" alt="Ducas Patent"> s Then in 36’ Paul Eisler had a huge breakthroughs in the UK. He had developed a way to print electrical circutis on a non doncutive base using copper foil. This gained huge popularity giving him the honor of being credited with inventing the modern PCB. Additionally the idea was accelerated during World War II finding great use in radios and military equipment. After WWII people realized how efficient PCB’s were and began using them in consumer products. Products continued to imrpove in the 60’s as SMT or surface mount technology were invented.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/smt.jpg" class="img-fluid figure-img"></p>
-<figcaption>You can see SMT on C9 vs the THT on C5</figcaption>
-</figure>
-</div>
-<p>This allowed chip components to be mounted on the surface instead of in through holes saving a lot of space allowing for a more complicated chip in a small area. From the 80’s onwards PCB’s were used in almost all electronic devices. However PCB development has not stagnated now a days Computer-Aided Design has allowed anyone to be able to design and create their own custom PCB like we did in class. More surprising is how fast and cheap it is for anyone to be able to pickup this skill and get their own PCB in their hands in a few days. I hope to get to use mine in Lab 6.</p>
+<p>This week we started discussing the final project in our Micro Processing deign course. In this course after you complete the first seven labs you have to design and build a half semester long project that uses both the FPGA and MCU. Here are a few of the projects we were thinking about:</p>
+<p>The first project we thought of was a 2D ball balancing robot similar to the one below.</p>
+<p><img src="images/ballBalancer.jpg" class="img-fluid"></p>
+<p>It would use stepper motors and PID control to adjust the table. A resistive touch screen would be able to tell the system where the ball was so the table could react to it accordingly. We were really excited about this project but quickly realized that it would involve a big mechanical focus. We decided we wanted to focus on the embedded systems approach and scrapped this idea.</p>
+<p>The next project we considered was making a rubiks cube solver. Similar to those videos online where a machine takes a scrambled rubiks cube and solves it in just a few seconds.</p>
+<p><img src="images/rubiks.gif" class="img-fluid"></p>
+<p>This idea would involve analyzing the current state of the cube and using stepper motors to rotate the cube. The one issue with this idea is that we would need a way to see what the colors on the side of the rubiks cube are so that our program could know what moves to maker and rotate the cube until it was solved. This application of computer vision seemed out fo the scope of this class and not feasible.</p>
+<p>We then pivoted to our third idea…CHESS!!! It was perfect. We could have a smart chess board that kept track of where every chess piece was using hall effect sensors. From there whenever a piece is picked up the leds under the board would will notify the user where they are allow to move their piece. Additional ideas include telling users optimal moves and having sound effects when taking opponents. We are thinking we could have the MCU keep track of every piece on the 8x8 board and the FPGA will communicate with it to light up the chess squares. I hope to started on this as soon as possible.</p>
 
 
 
