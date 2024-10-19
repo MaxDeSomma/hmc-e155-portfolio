@@ -37,5 +37,11 @@
   },
   "labs/lab5/lab5.qmd": {
     "lab5.html": "185e5513"
+  },
+  "posts/sixth-post.qmd": {
+    "sixth-post.html": "1caa3cee"
+  },
+  "posts/seventh-post.qmd": {
+    "seventh-post.html": "1f52b4ab"
   }
 }
