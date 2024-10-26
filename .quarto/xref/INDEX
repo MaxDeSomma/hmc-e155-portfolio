@@ -43,5 +43,11 @@
   },
   "posts/seventh-post.qmd": {
     "seventh-post.html": "1f52b4ab"
+  },
+  "labs/lab6/lab6.qmd": {
+    "lab6.html": "e4cbb092"
+  },
+  "posts/eigth-post.qmd": {
+    "eigth-post.html": "8693eafa"
   }
 }

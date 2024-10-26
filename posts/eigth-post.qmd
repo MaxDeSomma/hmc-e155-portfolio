@@ -1,0 +1,17 @@
+---
+title: "SPI Invention"
+description: "Thank you Motorola?"
+author: "Max De Somma"
+date: "10/25/24"
+categories:
+  - reflection
+draft: false
+---
+
+You probably know Motorola as the comnpany that sometimes makes wacky phones like the flip phone below.
+![](images/motorola.png)
+However they deserve a lot more credit than that. They have created pioneering work in semiconductors, communication equipment, automative electronics, space/satellite technology, computer systems, television and even defense contracts. 
+
+However most related to this class is Motorola's invention of SPI (serial peripheral interface). This week in class we relied on SPI protocol to read temperature data from a temperature sensor. They wanted to develop a protocol that would enable a fast, efficient interface that most importantly used fewer number of wires. While there were other protocols available like I^2C that just uses just a clock and a data line Motorola needed a much faster way to send data. This is where their full duplex SPI came in. Motorola designed it to use four pins MOSI, MISO, SCLK and SS. Motorolla launched their first iteration of SPI with their 68xx microcontrollers and from there it was history. SPI became one of the most well know interfaces in embedded systems as a reliable and fast way to interface with peripherals. You can now find almost any sensor available for SPI Interface from extra addressable memory to gyroscopes.
+
+![SPI Interface](images/spi.png)
