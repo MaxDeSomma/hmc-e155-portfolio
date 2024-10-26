@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Max De Somma">
+<meta name="dcterms.date" content="2024-10-25">
+<meta name="description" content="Thank you Motorola?">
 
-<title>Lab 1: FPGA and MCU Setup and Testing – E155 Portfolio</title>
+<title>SPI Invention – E155 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,59 +23,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -101,37 +70,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -141,7 +81,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">E155 Portfolio</span>
     </a>
   </div>
@@ -152,11 +92,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -165,27 +105,27 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
         <li>
-    <a class="dropdown-item" href="../../labs/lab1/lab1.html">
+    <a class="dropdown-item" href="../labs/lab1/lab1.html">
  <span class="dropdown-text">Lab 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab2/lab2.html">
+    <a class="dropdown-item" href="../labs/lab2/lab2.html">
  <span class="dropdown-text">Lab 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab3/lab3.html">
+    <a class="dropdown-item" href="../labs/lab3/lab3.html">
  <span class="dropdown-text">Lab 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab4/lab4.html">
+    <a class="dropdown-item" href="../labs/lab4/lab4.html">
  <span class="dropdown-text">Lab 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab5/lab5.html">
+    <a class="dropdown-item" href="../labs/lab5/lab5.html">
  <span class="dropdown-text">Lab 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab6/lab6.html">
+    <a class="dropdown-item" href="../labs/lab6/lab6.html">
  <span class="dropdown-text">Lab 6</span></a>
   </li>  
     </ul>
@@ -201,37 +141,42 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#development-board" id="toc-development-board" class="nav-link" data-scroll-target="#development-board">Development Board</a></li>
-  <li><a href="#testing-the-fpga-and-mcu" id="toc-testing-the-fpga-and-mcu" class="nav-link" data-scroll-target="#testing-the-fpga-and-mcu">Testing the FPGA and MCU</a></li>
-  <li><a href="#fpga-design" id="toc-fpga-design" class="nav-link" data-scroll-target="#fpga-design">FPGA Design</a>
-  <ul class="collapse">
-  <li><a href="#lab-description" id="toc-lab-description" class="nav-link" data-scroll-target="#lab-description">Lab Description</a></li>
-  <li><a href="#design" id="toc-design" class="nav-link" data-scroll-target="#design">Design</a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
-  <li><a href="#wiring-and-outcome" id="toc-wiring-and-outcome" class="nav-link" data-scroll-target="#wiring-and-outcome">Wiring and Outcome</a></li>
-  </ul></li>
-  </ul>
-<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab1"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 1: FPGA and MCU Setup and Testing</h1>
-</div>
+<h1 class="title">SPI Invention</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">reflection</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    Thank you Motorola?
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Max De Somma </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 25, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -241,196 +186,16 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this lab we soldered our E155 protoboard, tested our FPGA and MCU, and created our own FPGA design to drive onboard LEDs as well as a seven segment display.</p>
-</section>
-<section id="development-board" class="level2">
-<h2 class="anchored" data-anchor-id="development-board">Development Board</h2>
-<p>For the development board we were given we soldered a variety of surface mount technology (SMT) and through hole technology (THT) components. The brains behind the development board consisto of the UPduino v3.1 FPGA and Nucleo-L432KC MCU which were attached through header pins. Additionally switches, voltage regulators, and jumpers to set power for the MCU and FPGA were added to the board. The most difficult part was soldering all the SMT leds, capacitors, and resistors as it was tricky to get them in the correct place with how small they were.</p>
+<p>You probably know Motorola as the comnpany that sometimes makes wacky phones like the flip phone below. <img src="images/motorola.png" class="img-fluid"> However they deserve a lot more credit than that. They have created pioneering work in semiconductors, communication equipment, automative electronics, space/satellite technology, computer systems, television and even defense contracts.</p>
+<p>However most related to this class is Motorola’s invention of SPI (serial peripheral interface). This week in class we relied on SPI protocol to read temperature data from a temperature sensor. They wanted to develop a protocol that would enable a fast, efficient interface that most importantly used fewer number of wires. While there were other protocols available like I^2C that just uses just a clock and a data line Motorola needed a much faster way to send data. This is where their full duplex SPI came in. Motorola designed it to use four pins MOSI, MISO, SCLK and SS. Motorolla launched their first iteration of SPI with their 68xx microcontrollers and from there it was history. SPI became one of the most well know interfaces in embedded systems as a reliable and fast way to interface with peripherals. You can now find almost any sensor available for SPI Interface from extra addressable memory to gyroscopes.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/protoboard.png" class="img-fluid figure-img"></p>
-<figcaption>Completed Development Board</figcaption>
-</figure>
-</div>
-</section>
-<section id="testing-the-fpga-and-mcu" class="level2">
-<h2 class="anchored" data-anchor-id="testing-the-fpga-and-mcu">Testing the FPGA and MCU</h2>
-<p>The FPGA and MCU were then tested to make sure they worked properly along with all the soldered components on the PCB. They were able to be test by using the onboard PCB LEDs which connect internally to specific pins of the FPGA and MCU. For my board I found that three of my LEDS and one of the current limiting resistors needed to be reflowed. However after reflowing, and using Radiant to program the FPGA and Segger to program the MCU it worked worked succesfully.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/onBoardLeds.png" class="img-fluid figure-img"></p>
-<figcaption>On board LEDs used to test the FPGA and MCU</figcaption>
-</figure>
-</div>
-</section>
-<section id="fpga-design" class="level2">
-<h2 class="anchored" data-anchor-id="fpga-design">FPGA Design</h2>
-<section id="lab-description" class="level3">
-<h3 class="anchored" data-anchor-id="lab-description">Lab Description</h3>
-<p>After I had thoroughly tested that my FPGA, MCU, and development board, I designed FPGA modules to control different LEDs. The task was to light up the LED’s and a seven segment display depending on what dip switches were selected, described more in the table below.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Signal Name</th>
-<th>Signal Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>s[3:0]</code></td>
-<td>input</td>
-<td>the four DIP switches (on the board, SW6)</td>
-</tr>
-<tr class="even">
-<td><code>led[2:0]</code></td>
-<td>output</td>
-<td>3 LEDs (you may use the on-board LEDs)</td>
-</tr>
-<tr class="odd">
-<td><code>seg[6:0]</code></td>
-<td>output</td>
-<td>the segments of a common-anode 7-segment display</td>
-</tr>
-</tbody>
-</table>
-<p>Two of the LEDs, <code>led[0]</code> and <code>led[1]</code>, were designed accordingly:</p>
-<div class="center-table">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;"><code>s1</code></th>
-<th style="text-align: center;"><code>s0</code></th>
-<th style="text-align: center;"><code>led[0]</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="center-table">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;"><code>s3</code></th>
-<th style="text-align: center;"><code>s2</code></th>
-<th style="text-align: center;"><code>led[1]</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><code>led[2]</code> did not follow a truth table but instead was designed to blink at 2.4 Hz.</p>
-<p>As for the seven segment display it needs to read in the dip switch signals and display the four bit binary number as a single hexadecimal number on the seven segment display. For example if the dip switch input <code>s[3:0]</code> was <code>0110</code> the seven segment display must show a <code>6</code> while if it was <code>1101</code> it would display a <code>d</code>.</p>
-</section>
-<section id="design" class="level3">
-<h3 class="anchored" data-anchor-id="design">Design</h3>
-<p>Below is the block diagram used to design the combinational logic that that drove both the LEDs and seven segment display:</p>
-<p><img src="images/lab1BlockDiagrampng.png" class="img-fluid"></p>
-<section id="led-design" class="level4">
-<h4 class="anchored" data-anchor-id="led-design">LED Design</h4>
-<p>To design <code>led[0]</code> and <code>led[1]</code> we can clearly see that <code>led[0]</code> is simply an exclusive or (XOR gate) of input <code>s0</code> and <code>s1</code>. While <code>led[1]</code> is an and gate of <code>s2</code> and <code>s3</code>. For <code>led[2]</code> it was necessary to make sure it blinked at 2.4 Hz. This means that every cycle of <code>led[2]</code> will last around 0.4167 seconds. Using a duty cycle of 50%, the LED needs to switch on or off every 0.2083 seconds. The HSOSC library was utilized to create a clock that oscillated at 48 Mhz meaning it ticks every <span class="math inline">\(2.083*10^-8\)</span> seconds. This meant that it would take <span class="math inline">\(10^8\)</span> ticks to complete a half cycle for <code>led[3]</code>. To design this a flip flop was used that counts every tick and switched the led on or off every 10,000,000 counts.</p>
-</section>
-<section id="seven-segment-design" class="level4">
-<h4 class="anchored" data-anchor-id="seven-segment-design">Seven Segment Design</h4>
-<p>To design the seven segment display the SystemVerilog module used a submodule which had an input of <code>s[3:0]</code> and an output of <code>seg[6:0]</code>. This submodule comntained a case statement with 16 cases, one for each off the possible dip switch combinations (4’b000, 4’b0001, … , 4’b1111). Once the SystemVerilog checked the case it would then turn off the specific pins that correlated to the specific segments to create each hexadecimal number. One interesting point about the seven segment display is that it was common annode, meaning it had one common pin at 3.3V, meaning the FPGA must drive the desired pin to low to light up the particular segment.</p>
-</section>
-</section>
-<section id="testing" class="level3">
-<h3 class="anchored" data-anchor-id="testing">Testing</h3>
-<p>A test bench was used to test the SystemVerilog code was working according to the proposed design. The testbench ran all 16 cominations of the dip switches and tested the expected led[3:0] and expected seg[6:0] outputs vs what the actual output of the modules would be in simulation.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>// sevenSeg_testvectors.tv</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>// Max De Somma</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>// mdesomma@g.hmc.edu</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>// 9/3/24</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>// <span class="co">[</span><span class="ot">3:0</span><span class="co">]</span>s, <span class="co">[</span><span class="ot">2:0</span><span class="co">]</span>led, <span class="co">[</span><span class="ot">6:0</span><span class="co">]</span>segment</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>0000_000_1000000</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>0001_001_1110011</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>0010_001_0100100</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>0011_000_0100001</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>0100_000_0010011</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>0101_001_0001001</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>0110_001_0001000</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>0111_000_1100011</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>1000_000_0000000</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>1001_001_0000001</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>1010_001_0000010</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>1011_000_0011000</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>1100_010_1001100</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>1101_011_0110000</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>1110_011_0001100</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>1111_010_0001110</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The test vector file above was the one used in the testbench that had the correct output for every case. Every test passed proving the SystemVerilog code worked correctly.</p>
-<p><img src="images/testBench.png" class="img-fluid"></p>
-<p>However the testbench fell short as <code>led[2]</code> was not able to be tested which is clear in the photo above. This was due to the fact that the HSOSC libary was not include in model sim. However it was possible to validate it using an oscilloscope proving it oscillated between 0 V and 3.3V at a freq of 2.42 Hz which is close to the desired 2.40 Hz. <img src="images/2.4HzLED.png" class="img-fluid"></p>
-</section>
-<section id="wiring-and-outcome" class="level3">
-<h3 class="anchored" data-anchor-id="wiring-and-outcome">Wiring and Outcome</h3>
-<p>After writing and testing the SystemVerilog, it was time to connect the LED’s and Seven Segment to my FPGA using the following wiring schematic.</p>
-<p><img src="images/pinLayout.png" class="img-fluid"></p>
-<p>However to prevent the seven segment drawing too much current, current limiting resistors were added to all seven <code>seg[7:0]</code> pins targeting 15 mA. On the seven segment data sheet, it stated that the red led segments had a forward voltage of 1.8 V. This meant that voltage across the resistor would be 1.5 V, and thus could use V = IR with a target current of 0.15 mA to calculate R.</p>
-<p><img src="images/currentLimitingResistor.png" class="img-fluid"></p>
-<p>After finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionally as shown above the <code>led[2]</code> blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/display6.jpg" class="img-fluid figure-img"></p>
-<figcaption>The correct output of led[0] and the Seven Segment displaying 6 for input 4’b0110</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/displayC.jpg" class="img-fluid figure-img"></p>
-<figcaption>The correct output of led[1] and the Seven Segment displaying C for input 4’b110</figcaption>
+<p><img src="images/spi.png" class="img-fluid figure-img"></p>
+<figcaption>SPI Interface</figcaption>
 </figure>
 </div>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -525,7 +290,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/MaxDeSomma\.github\.io\/hmc-e155-portfolio\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

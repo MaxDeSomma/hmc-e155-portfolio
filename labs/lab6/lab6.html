@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Lab 1: FPGA and MCU Setup and Testing – E155 Portfolio</title>
+<title>Lab 6: The Internet of Things and Serial Peripheral Interface – E155 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -101,35 +67,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -207,24 +144,22 @@ window.Quarto = {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#development-board" id="toc-development-board" class="nav-link" data-scroll-target="#development-board">Development Board</a></li>
-  <li><a href="#testing-the-fpga-and-mcu" id="toc-testing-the-fpga-and-mcu" class="nav-link" data-scroll-target="#testing-the-fpga-and-mcu">Testing the FPGA and MCU</a></li>
-  <li><a href="#fpga-design" id="toc-fpga-design" class="nav-link" data-scroll-target="#fpga-design">FPGA Design</a>
-  <ul class="collapse">
-  <li><a href="#lab-description" id="toc-lab-description" class="nav-link" data-scroll-target="#lab-description">Lab Description</a></li>
-  <li><a href="#design" id="toc-design" class="nav-link" data-scroll-target="#design">Design</a></li>
+  <li><a href="#lab-overview" id="toc-lab-overview" class="nav-link" data-scroll-target="#lab-overview">Lab Overview</a></li>
+  <li><a href="#the-temperature-sensor" id="toc-the-temperature-sensor" class="nav-link" data-scroll-target="#the-temperature-sensor">The Temperature Sensor</a></li>
+  <li><a href="#mcu-design" id="toc-mcu-design" class="nav-link" data-scroll-target="#mcu-design">MCU Design</a></li>
+  <li><a href="#spi-setup" id="toc-spi-setup" class="nav-link" data-scroll-target="#spi-setup">SPI SETUP</a></li>
+  <li><a href="#calculations" id="toc-calculations" class="nav-link" data-scroll-target="#calculations">Calculations</a></li>
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
-  <li><a href="#wiring-and-outcome" id="toc-wiring-and-outcome" class="nav-link" data-scroll-target="#wiring-and-outcome">Wiring and Outcome</a></li>
-  </ul></li>
+  <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
   </ul>
-<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab1"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab6"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 1: FPGA and MCU Setup and Testing</h1>
+<h1 class="title">Lab 6: The Internet of Things and Serial Peripheral Interface</h1>
 </div>
 
 
@@ -243,193 +178,52 @@ window.Quarto = {
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this lab we soldered our E155 protoboard, tested our FPGA and MCU, and created our own FPGA design to drive onboard LEDs as well as a seven segment display.</p>
+<p>In this lab we were tasked with creating an Internet of Things (IoT) device that displayed the temperature of the lab when requested and could control an LED connected to our MCU.</p>
 </section>
-<section id="development-board" class="level2">
-<h2 class="anchored" data-anchor-id="development-board">Development Board</h2>
-<p>For the development board we were given we soldered a variety of surface mount technology (SMT) and through hole technology (THT) components. The brains behind the development board consisto of the UPduino v3.1 FPGA and Nucleo-L432KC MCU which were attached through header pins. Additionally switches, voltage regulators, and jumpers to set power for the MCU and FPGA were added to the board. The most difficult part was soldering all the SMT leds, capacitors, and resistors as it was tricky to get them in the correct place with how small they were.</p>
+<section id="lab-overview" class="level2">
+<h2 class="anchored" data-anchor-id="lab-overview">Lab Overview</h2>
+<p>The goal of this lab was to learn how to tie together multiple different components in conjunction with our MCU to create the desired IoT device. We used an ESP8266 which is a Wi-Fi microcontroller with pre-written web server code to host webpage. The MCU would then communicate with the webpage over UART allowing the MCU to read and write data to the ESP8266 and change the webpage. The MCU would also communicate with a DS1722 Digital Thermometer over SPI synchonously recieving temperature data and sending it over UART to the page.</p>
+</section>
+<section id="the-temperature-sensor" class="level2">
+<h2 class="anchored" data-anchor-id="the-temperature-sensor">The Temperature Sensor</h2>
+<p>Referenced above this lab used a DS1722 Digital Thermometer described in the image below.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/protoboard.png" class="img-fluid figure-img"></p>
-<figcaption>Completed Development Board</figcaption>
+<p><img src="images/tempPins.png" class="img-fluid figure-img"></p>
+<figcaption>Pinout of Temperature Sensor</figcaption>
 </figure>
 </div>
+<p>This sensor can interface in both SPI and 3-wire interface. The MCU connected to the <code>SCLK</code>, <code>CE</code>, <code>SDO</code>, and <code>SDI</code> which connected to the SPI clock initiated on the MCU, a GPIO out pin, a MISO pin, and a MOSI pin respectively. When using SPI the sensor has the following registers.</p>
+<p><img src="images/registers.png" class="img-fluid"></p>
+<p>The SPI system configured for this lab sent and recieved 8 bits of data. For reading the temperature from the sensor it was slightly different the SPI first needed to write the 8 bit read address (either 0x01 or 0x02) and then send over 0x0 and read what the sensor outputs. Since the sensor only outputs 8 bits but the temperature is given in 16 bits you must call 0x01 and 0x02 which relate to the LSB and MSB data that need to be concatenated and then converted into a decimal. When writing to the configuration register the SPI needed to write 0x80 first to tell the sensor the specific location and then write the 8 bit configuration stream according to how many bits of precision you want from 8 to 12 bits.</p>
+<p><img src="images/config.png" class="img-fluid"></p>
 </section>
-<section id="testing-the-fpga-and-mcu" class="level2">
-<h2 class="anchored" data-anchor-id="testing-the-fpga-and-mcu">Testing the FPGA and MCU</h2>
-<p>The FPGA and MCU were then tested to make sure they worked properly along with all the soldered components on the PCB. They were able to be test by using the onboard PCB LEDs which connect internally to specific pins of the FPGA and MCU. For my board I found that three of my LEDS and one of the current limiting resistors needed to be reflowed. However after reflowing, and using Radiant to program the FPGA and Segger to program the MCU it worked worked succesfully.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/onBoardLeds.png" class="img-fluid figure-img"></p>
-<figcaption>On board LEDs used to test the FPGA and MCU</figcaption>
-</figure>
-</div>
+<section id="mcu-design" class="level2">
+<h2 class="anchored" data-anchor-id="mcu-design">MCU Design</h2>
+<p>In this lab our MCU had two jobs. The first was to send data to the webpage over UART to tell it what to display and allow the webpage to send requests to the MCU. In the MCU source code the main function begins by sending the Wi-Fi chip some HTML code for a webpage inlcuding the temperature reading and configuration settings as well as polls to control the LED and waiting for it to respond. When it does respond the MCU looks to see if it was a Temperature configuration request or LED request and then calls the respective code to either light up the LED or send an SPI signal to change the configuration register resolution and read the SPI temperature and then displays it on the webpage. On the webpage there are five buttons for temperature resolution ranging from 8 bit to 12 bit mode.</p>
 </section>
-<section id="fpga-design" class="level2">
-<h2 class="anchored" data-anchor-id="fpga-design">FPGA Design</h2>
-<section id="lab-description" class="level3">
-<h3 class="anchored" data-anchor-id="lab-description">Lab Description</h3>
-<p>After I had thoroughly tested that my FPGA, MCU, and development board, I designed FPGA modules to control different LEDs. The task was to light up the LED’s and a seven segment display depending on what dip switches were selected, described more in the table below.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Signal Name</th>
-<th>Signal Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>s[3:0]</code></td>
-<td>input</td>
-<td>the four DIP switches (on the board, SW6)</td>
-</tr>
-<tr class="even">
-<td><code>led[2:0]</code></td>
-<td>output</td>
-<td>3 LEDs (you may use the on-board LEDs)</td>
-</tr>
-<tr class="odd">
-<td><code>seg[6:0]</code></td>
-<td>output</td>
-<td>the segments of a common-anode 7-segment display</td>
-</tr>
-</tbody>
-</table>
-<p>Two of the LEDs, <code>led[0]</code> and <code>led[1]</code>, were designed accordingly:</p>
-<div class="center-table">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;"><code>s1</code></th>
-<th style="text-align: center;"><code>s0</code></th>
-<th style="text-align: center;"><code>led[0]</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="center-table">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: center;"><code>s3</code></th>
-<th style="text-align: center;"><code>s2</code></th>
-<th style="text-align: center;"><code>led[1]</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><code>led[2]</code> did not follow a truth table but instead was designed to blink at 2.4 Hz.</p>
-<p>As for the seven segment display it needs to read in the dip switch signals and display the four bit binary number as a single hexadecimal number on the seven segment display. For example if the dip switch input <code>s[3:0]</code> was <code>0110</code> the seven segment display must show a <code>6</code> while if it was <code>1101</code> it would display a <code>d</code>.</p>
+<section id="spi-setup" class="level2">
+<h2 class="anchored" data-anchor-id="spi-setup">SPI SETUP</h2>
+<p>To setup up SPI on the MCU the we first had to configure the GPIO pins for MOSI, MISO, and SCK pins. We then configured <code>CPI_CR1</code> includign setting the baud rate, clock phase, clock polarity, full duplex, and setting if the MCU is acting as the master or the slave. From there the amount of bits transfered on SPI was set to 8 bits and the frame format was set to SPI motorola mode.</p>
+<p>After we succesfully initiatied SPI we had to make a function to read and write to the temperature sensor using SPI. In this function then program waited for the transmit buffer to be empty <code>TXE</code> and then sent accross the 8 bit message we wanted to transfer. One unique feature was that the data register that hold the SPI data is 16 bits instead of 8. This meant if we tried to write an 8 bit message to this register the rest of the bits would be zero. To ammend this a pointer to the register was created of type <code>uint8_t</code> and the 8 bit data was then copied to the location the pointer pointed to. The program would then wait until the recieve buffer was not empty <code>RXNE</code> and return the data in the recieve buffer as a char.</p>
 </section>
-<section id="design" class="level3">
-<h3 class="anchored" data-anchor-id="design">Design</h3>
-<p>Below is the block diagram used to design the combinational logic that that drove both the LEDs and seven segment display:</p>
-<p><img src="images/lab1BlockDiagrampng.png" class="img-fluid"></p>
-<section id="led-design" class="level4">
-<h4 class="anchored" data-anchor-id="led-design">LED Design</h4>
-<p>To design <code>led[0]</code> and <code>led[1]</code> we can clearly see that <code>led[0]</code> is simply an exclusive or (XOR gate) of input <code>s0</code> and <code>s1</code>. While <code>led[1]</code> is an and gate of <code>s2</code> and <code>s3</code>. For <code>led[2]</code> it was necessary to make sure it blinked at 2.4 Hz. This means that every cycle of <code>led[2]</code> will last around 0.4167 seconds. Using a duty cycle of 50%, the LED needs to switch on or off every 0.2083 seconds. The HSOSC library was utilized to create a clock that oscillated at 48 Mhz meaning it ticks every <span class="math inline">\(2.083*10^-8\)</span> seconds. This meant that it would take <span class="math inline">\(10^8\)</span> ticks to complete a half cycle for <code>led[3]</code>. To design this a flip flop was used that counts every tick and switched the led on or off every 10,000,000 counts.</p>
+<section id="calculations" class="level2">
+<h2 class="anchored" data-anchor-id="calculations">Calculations</h2>
+<p>The only calculation in this lab was calulating the decimal temperature from the 8 to 12 bit data we recieve from the sensor using the following conversion.</p>
+<p><img src="images/convert.png" class="img-fluid"></p>
+<p>While the data sheet claims that the most significant bit is the sign in reality it uses two’s complement and the most significant bit represents -2^15. To compute the first 8 temperature bits I simply would check if the first bit was high or low by shifting and then add the decimal representation of the next 7 bits to either 0 or -128. For the second set of 8 bits I would mask each bit and check if it was high or low and then add the appropriate fraction.</p>
 </section>
-<section id="seven-segment-design" class="level4">
-<h4 class="anchored" data-anchor-id="seven-segment-design">Seven Segment Design</h4>
-<p>To design the seven segment display the SystemVerilog module used a submodule which had an input of <code>s[3:0]</code> and an output of <code>seg[6:0]</code>. This submodule comntained a case statement with 16 cases, one for each off the possible dip switch combinations (4’b000, 4’b0001, … , 4’b1111). Once the SystemVerilog checked the case it would then turn off the specific pins that correlated to the specific segments to create each hexadecimal number. One interesting point about the seven segment display is that it was common annode, meaning it had one common pin at 3.3V, meaning the FPGA must drive the desired pin to low to light up the particular segment.</p>
+<section id="testing" class="level2">
+<h2 class="anchored" data-anchor-id="testing">Testing</h2>
+<p>SPI TESTING on oscilloscope</p>
+<p>Once the MCU temperature code finally was able to interface with the UART webpage it was time to validate. Launching the website in the Digital Design lab I found that the webpage would show a reading around 24 C which translates to 75 F. This is right around room temperature where I expected it to be and shows that the temperature converting function works well. One thing that was interesting is when trying to change resolution it often took two clicks to get the resolution to change. We believe this is because it was still changing the configuration and reading the converting the new temperature before our webpage could request it. I tried to fix this by adding a 1.2s delay which corresponds to the conversion time of the highest resolution reading but unfortunately our webpage would time out as it wasn’t getting data frequently enough.</p>
 </section>
-</section>
-<section id="testing" class="level3">
-<h3 class="anchored" data-anchor-id="testing">Testing</h3>
-<p>A test bench was used to test the SystemVerilog code was working according to the proposed design. The testbench ran all 16 cominations of the dip switches and tested the expected led[3:0] and expected seg[6:0] outputs vs what the actual output of the modules would be in simulation.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>// sevenSeg_testvectors.tv</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>// Max De Somma</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>// mdesomma@g.hmc.edu</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>// 9/3/24</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>// <span class="co">[</span><span class="ot">3:0</span><span class="co">]</span>s, <span class="co">[</span><span class="ot">2:0</span><span class="co">]</span>led, <span class="co">[</span><span class="ot">6:0</span><span class="co">]</span>segment</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>0000_000_1000000</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>0001_001_1110011</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>0010_001_0100100</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>0011_000_0100001</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>0100_000_0010011</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>0101_001_0001001</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>0110_001_0001000</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>0111_000_1100011</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>1000_000_0000000</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>1001_001_0000001</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>1010_001_0000010</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>1011_000_0011000</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>1100_010_1001100</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>1101_011_0110000</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>1110_011_0001100</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>1111_010_0001110</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The test vector file above was the one used in the testbench that had the correct output for every case. Every test passed proving the SystemVerilog code worked correctly.</p>
-<p><img src="images/testBench.png" class="img-fluid"></p>
-<p>However the testbench fell short as <code>led[2]</code> was not able to be tested which is clear in the photo above. This was due to the fact that the HSOSC libary was not include in model sim. However it was possible to validate it using an oscilloscope proving it oscillated between 0 V and 3.3V at a freq of 2.42 Hz which is close to the desired 2.40 Hz. <img src="images/2.4HzLED.png" class="img-fluid"></p>
-</section>
-<section id="wiring-and-outcome" class="level3">
-<h3 class="anchored" data-anchor-id="wiring-and-outcome">Wiring and Outcome</h3>
-<p>After writing and testing the SystemVerilog, it was time to connect the LED’s and Seven Segment to my FPGA using the following wiring schematic.</p>
-<p><img src="images/pinLayout.png" class="img-fluid"></p>
-<p>However to prevent the seven segment drawing too much current, current limiting resistors were added to all seven <code>seg[7:0]</code> pins targeting 15 mA. On the seven segment data sheet, it stated that the red led segments had a forward voltage of 1.8 V. This meant that voltage across the resistor would be 1.5 V, and thus could use V = IR with a target current of 0.15 mA to calculate R.</p>
-<p><img src="images/currentLimitingResistor.png" class="img-fluid"></p>
-<p>After finally wiring all the inputs and the output to the FPGA and downloading the SystemVerilog module to the board the development board was succesfully able to drive the seven segment display and display the correct hexadecimal number and proper onboard LEDs. Additionally as shown above the <code>led[2]</code> blinked at the correct 2.4 Hz. This wraped up Lab 1, verifying that the development board worked properly while giving me a chance to design my own FPGA modules. In total this lab took 21 hours.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/display6.jpg" class="img-fluid figure-img"></p>
-<figcaption>The correct output of led[0] and the Seven Segment displaying 6 for input 4’b0110</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/displayC.jpg" class="img-fluid figure-img"></p>
-<figcaption>The correct output of led[1] and the Seven Segment displaying C for input 4’b110</figcaption>
-</figure>
-</div>
+<section id="outcome" class="level2">
+<h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
+<p>From the image below you can see how the website has buttons to select the resolution of the temperature sensor as well as properly displaying the temperature at the bottom of the page while keeping all the LED controls. This lab provideded a nice insight to how webpages work and how we can communicate with them using USART. Additionally I feel much more comfortable using SPI.</p>
+<p>Time in Lab this week: 22 Hours</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
