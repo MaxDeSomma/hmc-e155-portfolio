@@ -1,0 +1,10 @@
+---
+title: "lab 7 improvements"
+description: ""
+author: "Max De Somma"
+date: "11/09/24"
+categories:
+  - reflection
+draft: false
+---
+
