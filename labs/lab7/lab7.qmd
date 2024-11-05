@@ -42,7 +42,7 @@ We can see that the first 4 words are the original key of the AES encryption. Fo
 
 After all the submodules were designed it was time to piece them together in the AES controller. The block diagram of the entire `aes` module is given below.
 
-![](images/lab7BlockDiagram.png)
+![](images/lab7BlockDiagram3.png)
 
 I followed this schematic when writing the system verilog code. Connecting modules and using different enabled flipflops to know when to move data in different rounds and for specific timing. 
 

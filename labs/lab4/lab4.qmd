@@ -118,11 +118,11 @@ I started with the `ARR` formula that calculated the specific auto reload regist
 
 ![](images/495.png)
 
-The maximum and minimum duration and pitch then had to be calculated to make sure it could accurately play musical pieces. The calculations below show what the range of pitch and delays are.
+The maximum and minimum duration and pitch then had to be calculated to make sure it could accurately play musical pieces. The calculations below show what the range of pitch and delays are. In the calculations 1 is added to Arr as the counter switches one clock cycle after the Arr value is hit.
 
 ![](images/maxmin.png)
 
-For the duration timer I scaled down the clock by 10 to get an input clock of 98.453 Hz which leaves us with a range of delays from 0.01 to 665 ms. In hindsight I did not need to scale down the clock this much as we don't need a delay that small, however it fit within the bounds of the songs we were trying to play. For the frequency the clock wasn't scaled down any further which left us with a range of 15 Hz to 984 kHz which goes below and above the range of human hearing making it perfect for an audio output.
+For the duration timer I scaled down the clock by 10 to get an input clock of 98.453 Hz which leaves us with a range of delays from 0.02 to 665 ms. In hindsight I did not need to scale down the clock this much as we don't need a delay that small, however it fit within the bounds of the songs we were trying to play. For the frequency the clock wasn't scaled down any further which left us with a range of 15 Hz to 492 kHz which goes below and above the range of human hearing making it perfect for an audio output.
 
 
 
