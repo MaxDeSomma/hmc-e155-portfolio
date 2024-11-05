@@ -20,11 +20,11 @@ AES or the Advanced Encryption Standar is a symmetric encryption algorithm that 
 ![braincoke.fr](images/aesSteps.png)
 
 ## Designing the AES Controller and Submodules
-The first step was to design each transformation and key mixing submodule. Luckily `mixcolumns` was alrady provided for us, however `subBytes` was tricky as it involves substituting bytes in the 128 bit partially encoded sequence with bytes defined in a look up table shown below.
+The first step was to design each transformation and key mixing submodule. Luckily `mixcolumns` was already provided for us, however `subBytes` was tricky as it involves substituting bytes in the 128 bit partially encoded sequence with bytes defined in a look up table shown below.
 
 ![](images/sbox.png)
 
-This lookup table was giant so it couldn't be stored in the FPGA. However it was able to be stored in DRAM and accessed in the subModule. From there the `subButes` submodule parsed the 128 bit input and replaced each byte with the corresponing look up table value.
+This lookup table was giant so it couldn't be stored in the FPGA. However it was able to be stored in BRAM and accessed in the subModule. From there the `subButes` submodule parsed the 128 bit input and replaced each byte with the corresponing look up table value.
 
 Next up was `shiftRows` which simply left shifted each row by 0, 1, 2, or 3 bytes respectively. This submodule is described below.
 
