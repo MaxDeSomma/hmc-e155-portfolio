@@ -199,9 +199,9 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="designing-the-aes-controller-and-submodules" class="level2">
 <h2 class="anchored" data-anchor-id="designing-the-aes-controller-and-submodules">Designing the AES Controller and Submodules</h2>
-<p>The first step was to design each transformation and key mixing submodule. Luckily <code>mixcolumns</code> was alrady provided for us, however <code>subBytes</code> was tricky as it involves substituting bytes in the 128 bit partially encoded sequence with bytes defined in a look up table shown below.</p>
+<p>The first step was to design each transformation and key mixing submodule. Luckily <code>mixcolumns</code> was already provided for us, however <code>subBytes</code> was tricky as it involves substituting bytes in the 128 bit partially encoded sequence with bytes defined in a look up table shown below.</p>
 <p><img src="images/sbox.png" class="img-fluid"></p>
-<p>This lookup table was giant so it couldn’t be stored in the FPGA. However it was able to be stored in DRAM and accessed in the subModule. From there the <code>subButes</code> submodule parsed the 128 bit input and replaced each byte with the corresponing look up table value.</p>
+<p>This lookup table was giant so it couldn’t be stored in the FPGA. However it was able to be stored in BRAM and accessed in the subModule. From there the <code>subButes</code> submodule parsed the 128 bit input and replaced each byte with the corresponing look up table value.</p>
 <p>Next up was <code>shiftRows</code> which simply left shifted each row by 0, 1, 2, or 3 bytes respectively. This submodule is described below.</p>
 <p><img src="images/rows.png" class="img-fluid"></p>
 <p>Lastly was <code>addRoundKey</code> which ended up being both the simplest and most confusing. <code>addRoundKey</code> is simple as all you do is XOR each column with the <code>roundKey</code>. However computing the <code>roundKey</code> is not simple. Since our <code>addRoundKey</code> ended up being used 11 times we had to generate 11 <code>roundKeys</code> Each round key is broken down into 4 words (total of 44 words) and is described by the psuedocode below</p>
@@ -210,7 +210,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="images/wordEx.png" class="img-fluid"></p>
 <p>We can see that the first 4 words are the original key of the AES encryption. For each additional set of four words (index 4 through 43) the previous word is set as a starting point, then shifted left by one byte, substituted based on the look up table described in <code>subBytes</code>, XOR’ed by <code>rcon</code> which changes each round, and finally XOR’ed with the word that has an index of 4 less than the current word. The next three words are then the previous word XOR’ed with the word four before.</p>
 <p>After all the submodules were designed it was time to piece them together in the AES controller. The block diagram of the entire <code>aes</code> module is given below.</p>
-<p><img src="images/lab7BlockDiagram.png" class="img-fluid"></p>
+<p><img src="images/lab7BlockDiagram3.png" class="img-fluid"></p>
 <p>I followed this schematic when writing the system verilog code. Connecting modules and using different enabled flipflops to know when to move data in different rounds and for specific timing.</p>
 </section>
 <section id="testing" class="level2">
