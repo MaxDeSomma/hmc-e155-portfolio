@@ -1,0 +1,13 @@
+---
+title: "lab 7 improvements"
+description: ""
+author: "Max De Somma"
+date: "11/09/24"
+categories:
+  - reflection
+draft: false
+---
+
+This week we finished up the last of our Micro P labs. This lab was focused on AES encryption. To test if our encryption worked correctly the MCU began by sending over specific plaintext to the FPGA. The FPGA acting as a Hardware Accelerator would then encrypt the plaintext into encryptedtext and send it back to MCU. Once the MCU recieved this data it would then compare this to the correct answer. If our hardware accelerator worked properly it would light up an onboard LED and if it didn't work properly it would light up a different onboard LED. While this was an affective way of telling us whether or not the encrypted data was correct. It was sort of a let down compared to the other labs. In other labs we always ended with something we could test and play around with from a seven segment display we could control with a keypad, a motor we could read the RPM from, or a website that would tell us the temperature. 
+
+So here is my idea to make it better. I think that the plaintext that we encrypt should be replaced with plaintext that when encrypted spits out a code. This code will then be used to unlock a small safe in the microp lab thats gives students a riddle to where a treasure is hidden on the Harvey Mudd Campus. If students find the answer to the riddle they will be rewarded a small certificate congratulating them on completing the 7 microp labs similar to the certificates we recieve in E80. 
