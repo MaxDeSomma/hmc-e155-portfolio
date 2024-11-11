@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Max De Somma">
+<meta name="dcterms.date" content="2024-10-25">
+<meta name="description" content="Thank you Motorola?">
 
-<title>Lab 2: FPGA and MCU Setup and Testing – E155 Portfolio</title>
+<title>SPI Invention – E155 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,59 +23,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -112,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">E155 Portfolio</span>
     </a>
   </div>
@@ -123,11 +92,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -136,32 +105,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
         <li>
-    <a class="dropdown-item" href="../../labs/lab1/lab1.html">
+    <a class="dropdown-item" href="../labs/lab1/lab1.html">
  <span class="dropdown-text">Lab 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab2/lab2.html">
+    <a class="dropdown-item" href="../labs/lab2/lab2.html">
  <span class="dropdown-text">Lab 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab3/lab3.html">
+    <a class="dropdown-item" href="../labs/lab3/lab3.html">
  <span class="dropdown-text">Lab 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab4/lab4.html">
+    <a class="dropdown-item" href="../labs/lab4/lab4.html">
  <span class="dropdown-text">Lab 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab5/lab5.html">
+    <a class="dropdown-item" href="../labs/lab5/lab5.html">
  <span class="dropdown-text">Lab 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab6/lab6.html">
+    <a class="dropdown-item" href="../labs/lab6/lab6.html">
  <span class="dropdown-text">Lab 6</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../labs/lab7/lab7.html">
- <span class="dropdown-text">Lab 7</span></a>
   </li>  
     </ul>
   </li>
@@ -176,33 +141,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#lab-overview" id="toc-lab-overview" class="nav-link" data-scroll-target="#lab-overview">Lab Overview</a></li>
-  <li><a href="#design-approach" id="toc-design-approach" class="nav-link" data-scroll-target="#design-approach">Design Approach</a></li>
-  <li><a href="#testing-approach" id="toc-testing-approach" class="nav-link" data-scroll-target="#testing-approach">Testing Approach</a></li>
-  <li><a href="#wiring-up-the-board" id="toc-wiring-up-the-board" class="nav-link" data-scroll-target="#wiring-up-the-board">Wiring up the Board</a></li>
-  <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
-  </ul>
-<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab2"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 2: FPGA and MCU Setup and Testing</h1>
-</div>
+<h1 class="title">SPI Invention</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">reflection</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    Thank you Motorola?
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Max De Somma </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 25, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -212,76 +186,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this lab we learned how to use time multiplxing to efficiently use the I/O on our FPGA.</p>
-</section>
-<section id="lab-overview" class="level2">
-<h2 class="anchored" data-anchor-id="lab-overview">Lab Overview</h2>
-<p>The goal for this lab was to power two seven segment displays using seven output pins, by using time multiplexing. In addition to using time multiplexing to run two seven segment displays, transistors were used to drive large currents to the common annodes of the seven segment displays. This allowed pins on the FPGA which aren’t capable of driving large currents themselves to use the transistors as a switch allowing the FPGA to toggle the displays on and off quickly.</p>
-</section>
-<section id="design-approach" class="level2">
-<h2 class="anchored" data-anchor-id="design-approach">Design Approach</h2>
-<p>Time multiplexing is a way to share expensive hardware for different purposes using specific timing. We used multiplexing in this lab by driving two seperate seven segment displays using only seven pins. How it works in this lab is that the same signal (i.e., the same hexadecimal number) is sent to both seven segments. However, two FPGA pins are used to control the common annode’s on either display, toggling one off while the other is on, and synchonously switching the hexadecimal output with the pwoer toggle at around 240 Hz to make it look as if there are two distinct numbers. Both displays are controlled by their own quad dip switch input, and lastly the sum of both numbers are displayed as a five bit number on five seperate LEDS.</p>
+<p>You probably know Motorola as the comnpany that sometimes makes wacky phones like the flip phone below. <img src="images/motorola.png" class="img-fluid"> However they deserve a lot more credit than that. They have created pioneering work in semiconductors, communication equipment, automative electronics, space/satellite technology, computer systems, television and even defense contracts.</p>
+<p>However most related to this class is Motorola’s invention of SPI (serial peripheral interface). This week in class we relied on SPI protocol to read temperature data from a temperature sensor. They wanted to develop a protocol that would enable a fast, efficient interface that most importantly used fewer number of wires. While there were other protocols available like I^2C that just uses just a clock and a data line Motorola needed a much faster way to send data. This is where their full duplex SPI came in. Motorola designed it to use four pins MOSI, MISO, SCLK and SS. Motorolla launched their first iteration of SPI with their 68xx microcontrollers and from there it was history. SPI became one of the most well know interfaces in embedded systems as a reliable and fast way to interface with peripherals. You can now find almost any sensor available for SPI Interface from extra addressable memory to gyroscopes.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/overviewCircuit.jpg" class="img-fluid figure-img"></p>
-<figcaption>Two working seven segment displays using time multiplexing</figcaption>
+<p><img src="images/spi.png" class="img-fluid figure-img"></p>
+<figcaption>SPI Interface</figcaption>
 </figure>
 </div>
-<p>The systemVerilog code that was flashed onto the fpga followed the block diagram below. The top module <code>Lab 2</code> has inputs <code>s1 [3:0]</code> and <code>s2 [3:0]</code> which come from each of the quad dip switches. Those inputs then enter <code>ledSum</code> which is just an adder summing the two inputs into <code>sum [4:0]</code>. <code>s1</code> and <code>s2</code> also enter the <code>sevenSegment module</code> in addition to the <code>clk</code> signal which comes from the <code>HSOSC</code>. The <code>sevenSegment</code> module then alternates between turning on the left or right led segment using <code>led1</code> and <code>led2</code> outputs which are connected to the transistors as well as outputts the correct <code>seg [6:0]</code> output to light up specific segments on the display. <code>led1</code> and <code>led2</code> are toggled based on the 4.8 MHz <code>clk</code> signal which is modified to effectively act as a 240 Hz clock which flips <code>led1</code> and <code>led2</code> every cycle.</p>
-<p><img src="images/lab2BlockDiagram1.png" class="img-fluid"></p>
-</section>
-<section id="testing-approach" class="level2">
-<h2 class="anchored" data-anchor-id="testing-approach">Testing Approach</h2>
-<p>To test the modules discussed above a testbench was used to run a device under test. This test bench was quite simple compared to the last lab and did not use test vectors but instead was used to monitor when <code>led1</code> and <code>led2</code> toggled on or off and if the correct <code>seg[6:0]</code> was outputted depedning on which segment was powered. The DUT ended up being the <code>segmentSwitcher</code> module. Initially I planned to test each module seperately however the <code>sevenSegment</code> module was tested last week and <code>ledSum</code> just summed two inputs, so I decided to test all of <code>segmentSwitcher</code>. The systemVerilog used is provided below.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>module segmentSwitcher_tb();</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> // Set up test signals</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> logic clk;</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> logic <span class="co">[</span><span class="ot">3:0</span><span class="co">]</span> s1,s2;</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a> logic led1, led2;</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a> logic <span class="co">[</span><span class="ot">4:0</span><span class="co">]</span> sum;</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a> logic <span class="co">[</span><span class="ot">6:0</span><span class="co">]</span> seg;</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> // Instantiate the device under test</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a> segmentSwitcher dut(.s1(s1),.s2(s2), .clk(clk), .led1(led1),.led2(led2), .seg(seg), .sum(sum));</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a> // Generate clock signal with a period of 10 timesteps.</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a> always</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>   begin</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>     clk = 1; #5;</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>     clk = 0; #5;</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>   end</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>initial</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a> begin</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    // test different inputs</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    s1 = 4'b0000;</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    s2 = 4'b1111;</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    #20;</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    s1 = 4'b1000;</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    s2 = 4'b0001;</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    #20;</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    s1 = 4'b1010;</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    s2 = 4'b1001;</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    #20;</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a> end</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>endmodule</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The results from the wave function can be seen below. We can see that <code>led1</code> and <code>led2</code> oscillate oppositely as intended. In addition <code>seg</code> correctly outputs <code>s1</code> if <code>led1</code> is high and <code>s2</code> if <code>led2</code> is high. Lastly the summing module successfully sums <code>s1</code> and <code>s2</code> together and outputs it to <code>sum</code>.</p>
-<p><img src="images/testBench.png" class="img-fluid"></p>
-</section>
-<section id="wiring-up-the-board" class="level2">
-<h2 class="anchored" data-anchor-id="wiring-up-the-board">Wiring up the Board</h2>
-<p>After writing the system verilog modules and thoroughly testing them in a testbench it was time to wire of the FPGA. The FPGA was wired according to the pin layout below. The transistors used were PNP transistors (PN 2907). These were used to drive the common annodes of the displays to 3.3V and were switched on when <code>P47</code> and <code>P2</code> were driven low. <img src="images/pins.png" class="img-fluid"> Again resistors were used to limit the current for the I/O pins and the LEDs. The work for calculating the transistor base resistor, the seven segment resistor, and the yellow led resistor are shown below. The data sheet states that the recommended current for the FPGA I/O should be 8 mA. The transistor uses a diode that has a forward foltage of 0.7 V, from there we can calculate the resistance we need to set the current to 8 mA. The resistance ended up being 325 Ohms, which was close enough to the 330 Ohm resistors found in the lab. The seven segment display has a forward voltage of 1.8 V and the target amperage was 8 mA again, resuling in a resistance of 163 Ohms which was close to the 200 Ohm resistor in the cabinet. lastly for the yellow LEDs, I wanted them to be bright so I targeted a higher current of 15 mA, which correlates to a 100 Ohm resistance. Lastly for the addition quad dip switch used in this lab, internal FPGA pull up resistors of 100 kOhm were used. <img src="images/resistanceCalcs.png" class="img-fluid"></p>
-</section>
-<section id="outcome" class="level2">
-<h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
-<p>Below you can see a video of the working double seven segment display as well as the five LEDs showing the sum of the two hexadecimal number. This lab turned out successfully as all requirements were met including multiplexing two seven segment displays off of a single seven segment module using transistors, displaying the correct output depending on the input, and finally not having any visual flickering or bleeding.</p>
-<p><video src="images/ledMov.mov" class="img-fluid" controls=""><a href="images/ledMov.mov">Video</a></video></p>
-<p>Hours in lab this week: 16 hours</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -376,7 +290,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/MaxDeSomma\.github\.io\/hmc-e155-portfolio\/");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
