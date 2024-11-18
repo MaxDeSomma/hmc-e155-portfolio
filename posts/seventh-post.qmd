@@ -6,6 +6,8 @@ date: "10/18/24"
 categories:
   - reflection
 draft: false
+comments:
+  hypothesis: true
 ---
 
 This past week was fall break. Fall break is a short gap from school where we have Monday and Tuesday off from classes. This year for fall break I decided to visit my sister who lives in San Diego in order to try to learn how to surf. Like every other person who lives in San Diego my sister has begun to learn how to surf and would always brag about how good she was. Being a younger brother I naturally doubted her abilities and would tell myself I would be a better surfer than her with one day and had to prove it. 
