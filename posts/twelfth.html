@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Max De Somma">
+<meta name="dcterms.date" content="2024-12-13">
+<meta name="description" content="Another Mudd tradition">
 
-<title>Lab 3: FPGA and MCU Setup and Testing – E155 Portfolio</title>
+<title>Broom Ball – E155 Portfolio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -66,9 +69,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    document.body.classList.add('hypothesis-enabled');
+  });
+</script>
 
 
-<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -78,7 +87,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">E155 Portfolio</span>
     </a>
   </div>
@@ -89,11 +98,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../blog.html"> 
+    <a class="nav-link" href="../blog.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -102,31 +111,31 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-labs">    
         <li>
-    <a class="dropdown-item" href="../../labs/lab1/lab1.html">
+    <a class="dropdown-item" href="../labs/lab1/lab1.html">
  <span class="dropdown-text">Lab 1</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab2/lab2.html">
+    <a class="dropdown-item" href="../labs/lab2/lab2.html">
  <span class="dropdown-text">Lab 2</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab3/lab3.html">
+    <a class="dropdown-item" href="../labs/lab3/lab3.html">
  <span class="dropdown-text">Lab 3</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab4/lab4.html">
+    <a class="dropdown-item" href="../labs/lab4/lab4.html">
  <span class="dropdown-text">Lab 4</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab5/lab5.html">
+    <a class="dropdown-item" href="../labs/lab5/lab5.html">
  <span class="dropdown-text">Lab 5</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab6/lab6.html">
+    <a class="dropdown-item" href="../labs/lab6/lab6.html">
  <span class="dropdown-text">Lab 6</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../../labs/lab7/lab7.html">
+    <a class="dropdown-item" href="../labs/lab7/lab7.html">
  <span class="dropdown-text">Lab 7</span></a>
   </li>  
     </ul>
@@ -142,33 +151,42 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#lab-overview" id="toc-lab-overview" class="nav-link" data-scroll-target="#lab-overview">Lab Overview</a></li>
-  <li><a href="#design-the-fsm" id="toc-design-the-fsm" class="nav-link" data-scroll-target="#design-the-fsm">Design the FSM</a></li>
-  <li><a href="#testing-all-the-modules" id="toc-testing-all-the-modules" class="nav-link" data-scroll-target="#testing-all-the-modules">Testing all the Modules</a></li>
-  <li><a href="#wiring-up-the-board" id="toc-wiring-up-the-board" class="nav-link" data-scroll-target="#wiring-up-the-board">Wiring up the board</a></li>
-  <li><a href="#outcome" id="toc-outcome" class="nav-link" data-scroll-target="#outcome">Outcome</a></li>
-  </ul>
-<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/MaxDeSomma/e155-lab3"><i class="bi bi-github"></i>Lab Repository</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Lab 3: FPGA and MCU Setup and Testing</h1>
-</div>
+<h1 class="title">Broom Ball</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">reflection</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    Another Mudd tradition
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Max De Somma </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 13, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -178,83 +196,22 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In this lab we learn how to use the FPGA to scan inputs from a 4x4 keypad.</p>
-</section>
-<section id="lab-overview" class="level2">
-<h2 class="anchored" data-anchor-id="lab-overview">Lab Overview</h2>
-<p>The goal of this lab was to use 16 button keypad to display the last two hexadecimal digitals pressed on the double seven segment display. This becomes more tricky than it sounds. This is because the FPGA must fight against switch bouncing and metastability. The keypad is just a series of rows and columns that are connected depending on which button is pressed. When pushed a connection is formed and there is a short between the specific row and column.</p>
-<p><img src="images/keypad.png" class="img-fluid"></p>
-<p>Switch bouncing displayed in the diagram below, is the phenomenon where signals from a switch can appear as if they are flipped on and off repeatedly in an extremely short time frame. This is due to the physical characteristic of buttons. When the two peices of metal come together to form a connection they make contact initially for a small amount of time and then seperate until connecting again, repeating this cycle until it is fully connected.</p>
+<p>Every year around the end of the fall semester Harvey Mudd takes part in a tradition called broom ball. Broom ball is a recreational sport that is somewhat similar to ice hockey but simpler and more accessible. Instead of ice skates and hockey sticks. You just wear regular shoes and get a broom on the ice. Then in a team of six you pass and shoot a dodgeball into the opponents net.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/switchBouncing.png" class="img-fluid figure-img"></p>
-<figcaption>circuitdigest.com</figcaption>
+<p><img src="images/realBroomBall.png" class="img-fluid figure-img"></p>
+<figcaption>What real broom ball looks like</figcaption>
 </figure>
 </div>
-<p>Depending on your button you might see zero switch bouncing or extreme switch bouncing ranging from a few micro seconds to milliseconds. After testing the lab keypad I found that they had zero switch bouncing on any button as you can see from the oscilloscope below. However the systemVerilog still acounted for the possibility.</p>
+<p>However Mudd takes a different approach on this, usually two entire dorms show up to the ice rink totalling over 100 people. Due to the amount of people chaos quickly ensues. A dodgeball is then tossed on the rink and everyone runs for it. Luckily brooms are not used, and it ends up being a mad dash for the ball with kids slipping, falling, and sliding, until someone gets is able to grab it with their hands and get close enough to a goal to shoot the ball. To make it even better, intead of just getting past one goalie you now have six people defending the goal resulting in some extreme tactics. While it is a mess and we get kicked out of the ice rink each year it is a fun tradition that I hope continues on.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/noSwitchBouncing.png" class="img-fluid figure-img"></p>
-<figcaption>Oscilloscope of pressing a switch</figcaption>
+<p><img src="images/broomBall.png" class="img-fluid figure-img"></p>
+<figcaption>Mudd broom ball from this year</figcaption>
 </figure>
 </div>
-<p>The other problem the keypad has is metastability. Metastability can happen with digital logic when physical inputs don’t line up with the clock cycles correctly and are incorrectly sampled before the signal is fully stable. To fix that synchronizers were used to make sure the signal was stable. This can be accomlished using multiple flip flops and only using the stable output.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/metastability.png" class="img-fluid figure-img"></p>
-<figcaption>nandland.com</figcaption>
-</figure>
-</div>
-</section>
-<section id="design-the-fsm" class="level2">
-<h2 class="anchored" data-anchor-id="design-the-fsm">Design the FSM</h2>
-<p>To design this lab we had to implement an FSM to make sure that when a button held it is only registered as one valid press and you can’t press other buttons while its held. The following FSM was used.</p>
-<p><img src="images/fsm.png" class="img-fluid"></p>
-<p>For this lab I decided that the FGPA would output a signal to drive the rows high and the columns would be inputs to the FPGA to show when there is a vaild connection. However you can’t scan all four rows at the same time as then whenever a column recieved an input you wouldn’t be able to tell which button in the column it came from. To fix this the FSM scanned all the rows. Driving each one high seperately for one clock cycle each until the FPGA recieved a valid column signal. The FSM would then branch out holding that one row high to help determine which button is being pressed, and then it would enable the seven segment decoder to show a new number. Once the button is released it goes back to scanning.</p>
-<p>The systemVerilog code followed the following block diagram.</p>
-<p><img src="images/lab3BlockDiagram.png" class="img-fluid"></p>
-<p>In the top level module we defined the HSOSC and inputed that into the Master module. The master module then slowed down the <code>clk</code> and inverted the reset as the onboard switches use pull up resistors. The inputs <code>c</code> and <code>reset</code> then went into the synchronizer where we used two flip flops to make sure that <code>c</code> was stable as it entered the FSM. In the FSM <code>en</code>, <code>counter</code>, and <code>rowPressed</code> was generated which were used in the <code>buttonDecoder</code> and <code>ledController</code>. The FSM also determined which rows were powered by determining the logic for <code>r</code>. <code>buttonDecoder</code> took in <code>c</code> and <code>rowPressed</code> and then determined which four bit hexadecimal number it corresponded to outputting it as <code>s</code>. <code>s</code>,<code>en</code>, <code>counter</code>, <code>clk</code>, and <code>reset</code> was inputed into <code>ledController</code> which was built upon the last lab and was able to use time multiplexing to drive two seven segments displays outputting which seven segment should be based on <code>led1</code> and <code>led2</code> as well as the number <code>seg</code>. Additionally it used <code>counter</code> to create a digital low pass filter and make sure that if there was any switch bouncing it would not incorrectly affect the output.</p>
-</section>
-<section id="testing-all-the-modules" class="level2">
-<h2 class="anchored" data-anchor-id="testing-all-the-modules">Testing all the Modules</h2>
-<p>Due this labs complexity a lot more was tested in simulation before it was uploaded to the FPGA and wired up. The modules simulated were <code>buttonFSM</code>, <code>ledController</code>, and <code>buttonDecoder</code>. We first tested the <code>buttonDecoder</code> module. This involved making a simple testbench that gave it some example key presses to determine if it would output the correct 4-bit signal representing the hexadecimal pressed. From the wave below you can see that it outputs the correct signal based on the key pressed. You can also see that when two keys pressed together are simulated the ledDecoder goes to its default case statement of F however concerning the FSM should prevent two keys from being pressed simultaneously.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/decoderTB.png" class="img-fluid figure-img"></p>
-<figcaption>ledDecoder Test Bench</figcaption>
-</figure>
-</div>
-<p>The next module tested was <code>ledController</code>. The idea behind ledController is similar to last lab where it drives a double seven segment display. However we also wanted it to shift the numbers over as a new one was pressed, shifting everything left and adding the new onw on the right if it had the proper enable from the FSM. From the wave output below it shows that <code>s1</code> and <code>s2</code> the two hexidecimal numbers for the two led displays only change when <code>en</code> is high and shift properly, with <code>s1</code> getting <code>s</code> and <code>s2</code> getting <code>s1</code> in a flip flop. Additionally <code>ledController</code> switched which seven segment was on at the right speed and outputted the corresponding seven bit <code>seg</code> number to turn on certain diodes.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/controllerTB.png" class="img-fluid figure-img"></p>
-<figcaption>ledController Test Bench</figcaption>
-</figure>
-</div>
-<p>The final module tested was the FSM. For the testbench of the FSM, it was simply initialized as the device under test and then reset. On the wave we can see that after it is reset it properly scans through all the rows powering them high. Then we can input a single column pretending as if there is a real time input. This results in a specific row staying high until the FSM move into the next state where all the rows are high so we don’t see any of the errors mentioned in my blog, until the button is released. However we have the <code>rowPressed</code> variable at the bottom that keep track of which row was pressed initially so that the <code>ledDecoder</code> works properly. It then returns to scanning again. Near the end of the wave an input of <code>1000</code> half a clock cycle later the input changes to <code>1100</code> simulating someone pressing another button. The module however does not change the <code>colPressed</code> and will output the correct hexadecimal number</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/fsmTB.png" class="img-fluid figure-img"></p>
-<figcaption>FSM Test Bench</figcaption>
-</figure>
-</div>
-</section>
-<section id="wiring-up-the-board" class="level2">
-<h2 class="anchored" data-anchor-id="wiring-up-the-board">Wiring up the board</h2>
-<p>After making sure the simulated modules worked correctly they were uploaded to radiant and the board was wired to the following specification below.</p>
-<p><img src="images/pins.png" class="img-fluid"></p>
-<p>The FGPA pins were then connected to the correct outputs and inputs in radiant, the video below shows a working lab3 where the the button pressed on the keypad show up on the dual seven segment display. 100kOhm resistors were used on the columns of the keypad to act as pulldown resistors showing a valid low signal when nothing was pressed. The resistors for the diode and dual seven segment display were kept the same from last lab.</p>
-</section>
-<section id="outcome" class="level2">
-<h2 class="anchored" data-anchor-id="outcome">Outcome</h2>
-<p>This lab turned out to be a success. However this lab writeup makes it seem easier than it was. There were dozens of small bugs and features that did not work initially and had to be reformed and changed. It was quite frustrating however I learn how to use the oscilloscope and simulation to my benefit. In the end the keypad was able to communicate user input to the FPGA shifting the dual seven segment display to the correct number on the right side. Additionally the synchronizers were used to get rid of metastable inputs, the FSM countered any switch bouncing from the keypad, and it properly dealt with multiple key presses at once.</p>
-<p><video src="images/working.mov" class="img-fluid" controls=""><a href="images/working.mov">Video</a></video></p>
-<p>Time in lab: 23 Hours.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
